@@ -1,0 +1,69 @@
+{% extends 'opentable/base.html' %}
+
+
+{% block content %}
+
+
+    <div class="panel panel-default writeup-box">
+        {% if user.is_authenticated %}
+            {% if user == this_writeup.author or user.is_superuser %}
+                <div class="dropdown gear-menu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'writeups:edit_writeup' this_writeup.id %}">Edit</a></li>
+                        <li><a href="{% url 'writeups:delete_writeup' this_writeup.id %}">Delete</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+        <h4>{{this_writeup.author_character}}</h4>
+        <h6>by {{this_writeup.author}} on {{this_writeup.submission_date}}</h6>
+        <div class="writeup-text">
+            {{this_writeup.post_content}}
+        </div>
+
+
+    </div>
+    <h4>Comments:</h4>
+    <div class="panel panel-default comments-section">
+        {% for comment in this_writeup_comments %}
+            <div class="comment-box">
+                {% if user.is_authenticated %}
+                    {% if user == comment.author or user.is_superuser %}
+                        <div class="dropdown gear-menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{% url 'writeups:edit_comment' this_writeup.id comment.id %}">Edit</a></li>
+                                <li><a href="{% url 'writeups:delete_comment' this_writeup.id comment.id %}">Delete</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div class="comment-text">
+                    {{comment.comment_content}}
+                </div>
+                <div class="comment-meta">
+                    by {{comment.author}} on {{comment.submission_date}}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="comment-form">
+        {% load crispy_forms_tags %}
+        <div class="row">
+                {% crispy comment_form comment_form.helper %}
+        </div>
+
+    </div>
+    {% endif %}
+
+
+{% endblock %}
+
+

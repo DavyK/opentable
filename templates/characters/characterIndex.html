@@ -1,0 +1,21 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+
+{% for character in characters %}
+    <div class="row character-block">
+        <h4>{{character.name}}</h4>
+        <div class="col-md-3">
+            <img class="character-token" src="{{MEDIA_URL}}/{{character.character_token}}"></img>
+            <h6>Level {{character.level}} {{character.character_class}}</h6>
+            <h6>Player: {{character.player}}</h6>
+            <!-- TODO: Add progress bar to next level. May require javascript to calculate progress! -->
+            <!-- TODO: Writeups not taking up fill width of div. Why not? Possibly hidden element? -->
+        </div>
+        <div class="col-md-4">
+            <p>{{character.biography}}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

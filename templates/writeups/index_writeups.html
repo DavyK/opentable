@@ -1,0 +1,38 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+<div>
+    {% if writeups.has_previous %}
+    <a href="?page={{ writeups.previous_page_number }}"><button type="button" class="btn btn-primary">&lt;&lt; Back</button></a>
+    {% else %}
+        <button type="button" class="btn btn-default">Back</button>
+    {% endif %}
+        <button type="button" class="btn btn-info">{{pageName}} (pg. {{ writeups.number }})</button>
+    {% if writeups.has_next %}
+        <a href="?page={{ writeups.next_page_number }}"><button type="button" class="btn  btn-primary">Next &gt;&gt;</button></a>
+    {% else %}
+        <button type="button" class="btn btn-default">Next</button>
+    {% endif %}
+
+    {% if writeups|length > 0 %}
+        {% for writeup in writeups %}
+            <div>
+                <a href="{% url 'writeups:show_writeup' writeup.id %}"><h3>{{writeup.author_character}}</h3></a>
+                <div>
+                    {{writeup.post_content|truncatechars:200}}  <a href="{% url 'writeups:show_writeup' writeup.id %}">see more</a>
+                </div>
+                <h6>by {{writeup.author}} on {{writeup.submission_date}}</h6>
+            </div>
+
+        {% endfor %}
+    {% else %}
+
+        <div>
+            <h3>Ooops!</h3>
+            <p>This character doesn't have any write ups yet.</p>
+        </div>
+    {% endif %}
+
+
+</div>
+{% endblock %}

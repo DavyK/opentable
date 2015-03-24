@@ -1,0 +1,29 @@
+a::before{
+
+content: '\2605';
+color:#888;
+
+}
+
+a::after {
+content: '\2605';
+color:#8F8F8F;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font: normal 32px/normal "Times New Roman", Times, serif;
+  color: #333333;
+  background: rgba(181,181,181,0.8);
+  box-shadow:
+    0 32px 3px 0 rgba(223,223,223,0.6) inset,
+    0 1px 2px 1px rgba(0,0,0,0.3),
+    0 0 0 9px rgba(181,181,181,0.8),
+    0 0 0 11px rgba(255,255,255,1),
+    0 0 0 13px rgba(0,0,0,1);
+  text-shadow: 0px 1px 0px rgba(255,255,255,.5); /* 50% white from bottom */
+}
