@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', 'opentable.views.user_login', name='login'),
     url(r'^logout/', 'opentable.views.user_logout', name='logout'),
+    url(r'^tinymce/', include('tinymce.urls')),
 )
 
 

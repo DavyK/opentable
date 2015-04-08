@@ -19,7 +19,7 @@
             <div>
                 <a href="{% url 'writeups:show_writeup' writeup.id %}"><h3>{{writeup.author_character}}</h3></a>
                 <div>
-                    {{writeup.post_content|truncatechars:200}}  <a href="{% url 'writeups:show_writeup' writeup.id %}">see more</a>
+                    {{writeup.post_content|truncatechars:200|safe}}  <a href="{% url 'writeups:show_writeup' writeup.id %}">see more</a>
                 </div>
                 <h6>by {{writeup.author}} on {{writeup.submission_date}}</h6>
             </div>

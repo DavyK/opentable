@@ -21,7 +21,7 @@
         <h4>{{this_writeup.author_character}}</h4>
         <h6>by {{this_writeup.author}} on {{this_writeup.submission_date}}</h6>
         <div class="writeup-text">
-            {{this_writeup.post_content}}
+            {{this_writeup.post_content|safe}}
         </div>
 
 
@@ -44,7 +44,7 @@
                     {% endif %}
                 {% endif %}
                 <div class="comment-text">
-                    {{comment.comment_content}}
+                    {{comment.comment_content|safe}}
                 </div>
                 <div class="comment-meta">
                     by {{comment.author}} on {{comment.submission_date}}

@@ -9,6 +9,8 @@
     <link href="{{STATIC_URL}}/css/davy-custom.css"rel="stylesheet" type="text/css">
 
 
+
+
 </head>
 <body>
 
@@ -84,6 +86,9 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {% load url from future %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="{% url "tinymce-js" "NAME" %}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
 </body>

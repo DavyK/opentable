@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'characters',
     'writeups',
+    'tinymce',
 
 )
 
@@ -94,7 +95,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = ''
 
 STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
@@ -134,3 +135,6 @@ FORCE_LOWERCASE_TAGS = True
 
 #crispy-forms settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+#tiny MCE stuff
+TINYMCE_JS_URL = os.path.join(STATIC_PATH, "js/tiny_mce/tiny_mce.js")
