@@ -3,6 +3,7 @@ __author__ = 'davidkavanagh'
 from django.db import models
 from django.contrib.auth.models import User
 from characters.models import Character
+from django.utils import timezone
 
 # Create your models here.
 
@@ -18,7 +19,7 @@ class Writeup(models.Model):
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 
-    post_content = models.TextField(max_length=20000) #TODO: make rich text!!!
+    post_content = models.TextField(max_length=20000)
 
     class Meta:
         ordering = ('-submission_date',)
@@ -42,4 +43,20 @@ class Comment(models.Model):
     def __unicode__(self):
             return 'comment by {0}'.format(self.author)
 
-#TODO: Session Summary model
+class SessionSummary(models.Model):
+
+    gm = models.ForeignKey(User)
+
+    number = models.IntegerField()
+
+    location = models.CharField(max_length=500)
+
+    session_characters = models.ManyToManyField(Character)
+
+    xp_awarded = models.IntegerField()
+
+    summary_content = models.TextField()
+
+    important_npcs = models.CharField(max_length=500)
+
+    session_date = models.DateTimeField(default=timezone.now)

@@ -9,6 +9,19 @@ body {
     width: 75px;
 }
 
+.character-token-small {
+
+    height: 40px;
+    width: 40px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.character-token-label {
+    text-align: center;
+}
+
 .character-block{
     padding: 10px;
     margin-top: 10px;
@@ -37,6 +50,11 @@ body {
 
 .writeup-text {
     text-align: justify;
+}
+
+.writeup-meta {
+    color: rgb(128, 128, 128);
+    font-size: 80%;
 }
 
 .comments-section{

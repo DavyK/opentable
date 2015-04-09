@@ -2,7 +2,7 @@ __author__ = 'davidkavanagh'
 
 __author__ = 'David Kavanagh'
 
-from writeups.models import Writeup, Comment
+from writeups.models import Writeup, Comment, SessionSummary
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -40,3 +40,18 @@ class CommentForm(forms.ModelForm):
         fields = ['comment_content']
 
 
+class SummaryForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SummaryForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'bootstrap3'
+        self.helper.form_method = 'POST'
+        self.helper.form_action = '/writeups/addSummary/'
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+
+        # TODO: Make the character select box in the form show the pictures instead of a list. Use checkboxes instead.
+
+    class Meta:
+        model = SessionSummary

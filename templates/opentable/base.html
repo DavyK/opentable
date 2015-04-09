@@ -24,6 +24,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'characters:addCharacter' %}">+Character</a></li>
                 <li><a href="{% url 'writeups:add_writeup' %}">+Write Up</a></li>
+                <li><a href="{% url 'writeups:add_summary' %}">+Summary</a></li>
                 <li><a href="/admin/">Admin</a></li>
             </ul>
 
@@ -36,7 +37,7 @@
                     <input type="text" class="form-control", name="username" placeholder="Username">
                     <input type="password" class="form-control" name="password" placeholder="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                 </form>
             {% endif %}
         </div><!--/.nav-collapse -->
@@ -54,6 +55,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'characters:showCharacter' character.id %}">Stats</a></li>
                                 <li><a href="{% url 'writeups:character_list_writeups' character.id %}">Write Ups</a></li>
+                                <li><a href="{% url 'writeups:character_list_summaries' character.id %}">Sessions</a></li>
                                 {% if user.is_authenticated %}
 	                                {% if user == character.player or user.is_superuser %}
                                         <li class="divider"></li>
@@ -76,9 +78,15 @@
         <div class="col-md-3">
             <nav>
              <ul class="nav nav-pills nav-stacked">
-                <li><h4>Write Ups</h4></li>
-                {% for w_date in archive %}
+                <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
+                {% for w_date in writeup_archive %}
                     <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
+                {% endfor %}
+            </ul>
+            <ul class="nav nav-pills nav-stacked">
+                <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
+                {% for s_date in summary_archive %}
+                    <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
                 {% endfor %}
             </ul>
             </nav>
@@ -93,3 +101,5 @@
 <script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+<!-- TODO: make the links that require login show message that login is required -->

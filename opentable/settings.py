@@ -138,3 +138,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #tiny MCE stuff
 TINYMCE_JS_URL = os.path.join(STATIC_PATH, "js/tiny_mce/tiny_mce.js")
+
+# TODO: get all writeups and summaries from email threads and write scripts to insert into database.
+# Do this absolutely last! Will not port from sqllite to production db

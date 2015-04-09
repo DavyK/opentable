@@ -4,22 +4,22 @@ from characters.models import Character
 from characters.forms import CharacterForm
 from writeups.models import Writeup
 from django.contrib.auth.decorators import login_required
-from opentable.views import get_writeup_archive
+from opentable.views import get_writeup_archive, get_summary_archive
 
 # Create your views here.
 
 
 def home(request):
     characters = Character.objects.all()
-    writeups = Writeup.objects.all()
-    data = {'characters': characters, 'archive': get_writeup_archive()}
+    data = {'characters': characters,
+            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
     return render_to_response('characters/characterIndex.html', data, context_instance=RequestContext(request))
 
 
 def showCharacter(request, character_id):
     thisCharacter = Character.objects.get(pk=character_id)
     characters = Character.objects.all()
-    data = {'thisCharacter': thisCharacter, 'characters':characters, 'archive': get_writeup_archive()}
+    data = {'thisCharacter': thisCharacter, 'characters':characters, 'writeup_archive': get_writeup_archive()}
     return render_to_response('characters/characterStats.html', data, context_instance=RequestContext(request))
 
 @login_required
@@ -55,7 +55,8 @@ def add_character(request, character_id=None):
         character_form.helper.form_action = '/editCharacter/' + character_id + '/'
 
     characters = Character.objects.all()
-    data = {'character_form': character_form, 'characters': characters, 'archive': get_writeup_archive()}
+    data = {'character_form': character_form, 'characters': characters,
+            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
 
     return render_to_response('characters/addCharacter.html', data, context_instance=RequestContext(request))
 

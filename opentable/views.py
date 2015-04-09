@@ -3,7 +3,7 @@ __author__ = 'David Kavanagh'
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from writeups.models import Writeup
+from writeups.models import Writeup, SessionSummary
 
 def user_login(request):
 
@@ -31,4 +31,8 @@ def user_logout(request):
 
 def get_writeup_archive():
     archive_dates = Writeup.objects.datetimes('submission_date','month', order='DESC')
+    return archive_dates
+
+def get_summary_archive():
+    archive_dates = SessionSummary.objects.datetimes('session_date', 'month', order='DESC')
     return archive_dates
