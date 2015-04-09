@@ -1,0 +1,43 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+<div>
+    {% if summaries.has_previous %}
+    <a href="?page={{ summaries.previous_page_number }}"><button type="button" class="btn btn-primary">&lt;&lt; Back</button></a>
+    {% else %}
+        <button type="button" class="btn btn-default">Back</button>
+    {% endif %}
+        <button type="button" class="btn btn-info">{{pageName}} (pg. {{ summaries.number }})</button>
+    {% if summaries.has_next %}
+        <a href="?page={{ summaries.next_page_number }}"><button type="button" class="btn  btn-primary">Next &gt;&gt;</button></a>
+    {% else %}
+        <button type="button" class="btn btn-default">Next</button>
+    {% endif %}
+
+    {% if summaries|length > 0 %}
+        {% for summary in summaries %}
+            <div>
+                <a href="{% url 'writeups:show_summary' summary.id %}"><h3>Session {{summary.number}}</h3></a>
+                <div>
+                    <ul class="list-inline">
+                    {% for char in summary.session_characters.all %}
+                        <li><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></img></li>
+                    {% endfor %}
+                    </ul>
+                    <a href="{% url 'writeups:show_summary' summary.id %}">see more</a>
+                </div>
+                <h6>by {{summary.gm}} on {{summary.session_date}}</h6>
+            </div>
+
+        {% endfor %}
+    {% else %}
+
+        <div>
+            <h3>Ooops!</h3>
+            <p>Looks like this character hasn't done enough adventuring yet!</p>
+        </div>
+    {% endif %}
+
+
+</div>
+{% endblock %}

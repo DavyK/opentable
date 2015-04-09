@@ -1,0 +1,39 @@
+{% extends 'opentable/base.html' %}
+
+
+{% block content %}
+
+
+    <div class="panel panel-default writeup-box">
+        {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <div class="dropdown gear-menu">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'writeups:edit_summary' this_summary.id %}">Edit</a></li>
+                        <li><a href="{% url 'writeups:delete_summary' this_summary.id %}">Delete</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+        <h3>Session {{this_summary.number}}</h3>
+        <h6 class="writeup-meta">by {{this_summary.gm}} on {{this_summary.session_date}}</h6>
+        <h5>Characters:</h5>
+        <ul class="list-inline">
+            {% for char in this_summary.session_characters.all %}
+                <li><h6 class="character-token-label">{{char.name}}</h6><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></img></li>
+            {% endfor %}
+        </ul>
+        <div class="writeup-text">
+            {{this_summary.summary_content|safe}}
+        </div>
+        <h6>XP Awarded: {{this_summary.xp_awarded}}</h6>
+        <h6>Important NPCs: {{this_summary.important_npcs}}</h6>
+    </div>
+
+{% endblock %}
+
+<!-- TODO: continue to refine look of summary index and summary single view-->
+<!-- TODO: make images in show summary links to characters stats page -->
