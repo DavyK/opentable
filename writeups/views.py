@@ -120,7 +120,10 @@ def add_writeup(request, writeup_id=None):
             save_it = writeup_form.save(commit=False)
             save_it.save()
 
-            return HttpResponseRedirect('/writeups/listWriteups/')
+            this_writeup = Writeup.objects.order_by('-last_edited')[0]
+            redirect_to_url = '/writeups/showWriteup/{0}/'.format(this_writeup.id)
+
+            return HttpResponseRedirect(redirect_to_url)
 
     else:
         if writeup_id is not None:

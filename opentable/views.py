@@ -2,8 +2,15 @@ __author__ = 'David Kavanagh'
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, RequestContext, render_to_response
+from characters.models import Character
 from writeups.models import Writeup, SessionSummary
+
+
+def home(request):
+
+    return render_to_response('opentable/home.html', {}, context_instance=RequestContext(request))
+
 
 def user_login(request):
 
@@ -18,8 +25,11 @@ def user_login(request):
                 login(request, user)
 
     redirectPath = request.GET['next']
+    print redirectPath
     if redirectPath == '/logout/' or redirectPath is None:
         redirectPath = '/'
+
+    print redirectPath
 
     return HttpResponseRedirect(redirectPath)
 

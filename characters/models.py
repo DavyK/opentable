@@ -17,7 +17,7 @@ class Character(models.Model):
 
     level = models.IntegerField(default=1)
 
-    biography = models.TextField(max_length=1000)
+    biography = models.TextField()
 
     current_xp = models.BigIntegerField()
 

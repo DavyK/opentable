@@ -19,7 +19,7 @@ class Writeup(models.Model):
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 
-    post_content = models.TextField(max_length=20000)
+    post_content = models.TextField()
 
     class Meta:
         ordering = ('-submission_date',)

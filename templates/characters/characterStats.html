@@ -2,9 +2,59 @@
 
 {% block content %}
 
-{{thisCharacter.name}} ({{thisCharacter.character_class}} - {{thisCharacter.level}})
-{{thisCharacter.player.Username}}
-{{thisCharacter.biography}}
 
+<div class="panel panel-default writeup-box">
+    {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+            <div class="dropdown gear-menu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{% url 'characters:edit_character' this_character.id %}">Edit</a></li>
+                    <li><a href="{% url 'characters:delete_character' this_character.id %}">Delete</a></li>
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+    <h4>{{this_character.name}}</h4>
+    <a class="btn btn-primary" href="{% url 'writeups:character_list_writeups' this_character.id %}">Write Ups</a>
+    <a class="btn btn-primary" href="{% url 'writeups:character_list_summaries' this_character.id %}">Sessions</a>
+    <div class="row writeup-box">
+        <div class="col-md-4 writeup-box-column">
+            <img class="character-token-big" src="{{MEDIA_URL}}/{{this_character.character_token}}"></img>
+        </div>
+        <div class="col-md-4 writeup-box-column">
+            <h5>Played by {{this_character.player|capfirst}}</h5>
+            <h5>Race: {{this_character.race}}</h5>
+            <h5>Class: {{this_character.character_class}}</h5>
+            <h5>Level {{this_character.level}}</h5>
+
+
+        </div>
+        <div class="col-md-4 writeup-box-column">
+            <h5>Games Played: {{sessions_in}}/{{sessions_all}}</h5>
+            <h5>Write Ups: {{character_writeups}}</h5>
+            <h5>Current XP: {{this_character.current_xp}}</h5>
+            <h5>XP to Next level: {{xp_to_next_level}} </h5><!-- TODO: javascript to work this out I think -->
+            <div class="row">
+            <form class="form-inline" method="POST" action="{% url 'characters:add_xp' this_character.id%}">
+                {% csrf_token %}
+                    <input type="number" class="form-control col-sm-6" name="xp_to_add" placeholder="XP Gained">
+                    <button type="submit" class="btn btn-primary">Add XP</button>
+            </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="character-bio writeup-box">
+        <h5>Character Summary:</h5>
+        {{this_character.biography|safe}}
+
+    </div>
+</div>
+
+</script>
 
 {% endblock %}

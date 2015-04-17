@@ -1,21 +1,61 @@
 {% extends 'opentable/base.html' %}
 
-{% block content %}
+{% block custom_header_scripts %}
 
-{% for character in characters %}
-    <div class="row character-block">
-        <h4>{{character.name}}</h4>
-        <div class="col-md-3">
-            <img class="character-token" src="{{MEDIA_URL}}/{{character.character_token}}"></img>
-            <h6>Level {{character.level}} {{character.character_class}}</h6>
-            <h6>Player: {{character.player}}</h6>
-            <!-- TODO: Add progress bar to next level. May require javascript to calculate progress! -->
-            <!-- TODO: Writeups not taking up fill width of div. Why not? Possibly hidden element? -->
-        </div>
-        <div class="col-md-4">
-            <p>{{character.biography}}</p>
-        </div>
+{% endblock %}
+
+
+{% block content %}
+    {% for character in characters %}
+    {% if forloop.first %}
+        <div class="row">
+    {% endif %}
+
+
+    <div class="col-sm-4">
+    <!-- TODO: Make a data page. Have overall summaries about the games played. Total Levels, APL, n sessions per level, n character deaths
+         TODO: Make the navbar links at the top of the page be drop down boxes
+         TODO: Error pages
+         TODO: Custom context processors
+
+     -->
+        <div class="character-index-box panel panel-default">
+            <a href="{% url 'characters:show_character' character.id %}"><img class="character-token-big" src="{{MEDIA_URL}}/{{character.character_token}}"></img></a>
+                <h4 class="character-token-label">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">{{character.name}}<span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{% url 'characters:show_character' character.id %}">Stats</a></li>
+                                <li><a href="{% url 'writeups:character_list_writeups' character.id %}">Write Ups</a></li>
+                                <li><a href="{% url 'writeups:character_list_summaries' character.id %}">Sessions</a></li>
+                                {% if user.is_authenticated %}
+	                                {% if user == character.player or user.is_superuser %}
+                                        <li class="divider"></li>
+                                        <li><a href="{% url 'characters:edit_character' character.id %}">Edit</a></li>
+                                        <li><a href="{% url 'characters:delete_character' character.id %}">Delete</a></li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                </h4>
+                <h6>{{character.character_class}} - Level {{character.level}}</h6>
+            </div>
     </div>
-{% endfor %}
+
+
+    {% if forloop.counter|divisibleby:"3" and not forloop.last%}
+    </div>
+    <div class="row">
+    {% endif %}
+
+    {% if forloop.last %}
+        </div>
+    {% endif %}
+
+
+    {% endfor %}
+
+
+
+
 
 {% endblock %}

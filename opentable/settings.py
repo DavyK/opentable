@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'characters',
     'writeups',
     'tinymce',
-
+    'highcharts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,6 +61,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
+    'opentable.context_processors.add_sidebar_data',
 )
 
 ROOT_URLCONF = 'opentable.urls'
@@ -126,11 +127,9 @@ MEDIAFILES_DIRS = [
 ]
 
 #redirect if not logged in
-
 LOGIN_URL = '/'
 
 #Tagging settings
-
 FORCE_LOWERCASE_TAGS = True
 
 #crispy-forms settings
@@ -140,4 +139,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 TINYMCE_JS_URL = os.path.join(STATIC_PATH, "js/tiny_mce/tiny_mce.js")
 
 # TODO: get all writeups and summaries from email threads and write scripts to insert into database.
+
 # Do this absolutely last! Will not port from sqllite to production db

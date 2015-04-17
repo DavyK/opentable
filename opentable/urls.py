@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib import admin
+from opentable import views
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^$', 'opentable.views.home', name='home'),
     url(r'^', include('characters.urls', namespace='characters')),
     url(r'^writeups/', include('writeups.urls', namespace='writeups')),
     url(r'^admin/', include(admin.site.urls)),

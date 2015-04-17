@@ -19,19 +19,23 @@
             {% endif %}
         {% endif %}
         <h3>Session {{this_summary.number}}</h3>
-        <h6 class="writeup-meta">by {{this_summary.gm}} on {{this_summary.session_date}}</h6>
-        <h5>Characters:</h5>
+        <h6 class="writeup-meta">GMed by {{this_summary.gm}} on {{this_summary.session_date}}</h6>
+        <h5>Location: {{this_summary.location}}</h5>
+
         <ul class="list-inline">
+            <li><h5>PCs:</h5></li>
             {% for char in this_summary.session_characters.all %}
                 <li><h6 class="character-token-label">{{char.name}}</h6><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></img></li>
             {% endfor %}
         </ul>
         <div class="writeup-text">
+            <h5>Summary:</h5>
             {{this_summary.summary_content|safe}}
         </div>
         <h6>XP Awarded: {{this_summary.xp_awarded}}</h6>
         <h6>Important NPCs: {{this_summary.important_npcs}}</h6>
     </div>
+
 
 {% endblock %}
 
