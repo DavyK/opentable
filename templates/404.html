@@ -1,12 +1,9 @@
-{% extends "admin/base_site.html" %}
-{% load i18n %}
-
-{% block title %}{% trans 'Page not found' %}{% endblock %}
+{% extends 'opentable/base.html' %}
 
 {% block content %}
 
-<h2>{% trans 'Page not found' %}</h2>
+<h3>HTTP ERROR 404</h3>
 
-<p>{% trans "We're sorry, but the requested page could not be found." %}</p>
+<p>Sorry, something went wrong there. Try again, come back later, or stop messing with things you shouldn't be messing with!</p>
 
 {% endblock %}
