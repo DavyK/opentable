@@ -1,12 +1,12 @@
-{% extends 'opentable/base.html' %}
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Page not found' %}{% endblock %}
 
 {% block content %}
 
+<h2>{% trans 'Page not found' %}</h2>
 
-<h3>Fail to hit! (404)</h3>
-<p>Looks like something went wrong there! :( </p>
-
-<p>{{request_path}}</p>
-
+<p>{% trans "We're sorry, but the requested page could not be found." %}</p>
 
 {% endblock %}

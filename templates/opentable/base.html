@@ -10,7 +10,7 @@
     <link href="{{STATIC_URL}}/css/davy-custom.css"rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
 
     {% block custom_header_scripts %}
 
@@ -18,124 +18,124 @@
 
 
 </head>
-<body>
+    <body>
 
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'home' %}">Ptolus Open Table</a>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'home' %}">Ptolus Open Table</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Characters<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'characters:list_characters' %}">List Characters</a></li>
+                                        <li><a href="{% url 'characters:add_character' %}">Add Character</a></li>
+                            </ul>
+                        </li>
+
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Write Ups<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'writeups:list_writeups' %}">List Write Ups</a></li>
+                                        <li><a href="{% url 'writeups:add_writeup' %}">Add Write Up</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Session Summaries<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'writeups:list_summaries' %}">List Summaries</a></li>
+                                        <li><a href="{% url 'writeups:add_summary' %}">Add Summary</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li><a href="/admin/">Admin</a></li>
+                    </ul>
+
+                    {% if user.is_authenticated %}
+                        <p class="navbar-form navbar-right"><span class="btn btn-default">Welcome {{ user.username }}</span><a class="btn btn-primary" href='{% url "logout" %}'>Logout</a></p>
+                    {% else %}
+                        <form class="navbar-form navbar-right" id="login_form" method="POST" action='{% url "login" %}?next={{request.path}}'>
+                            {% csrf_token %}
+                            <div class="form-group">
+                            <input type="text" class="form-control", name="username" placeholder="username">
+                            <input type="password" class="form-control" name="password" placeholder="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                    {% endif %}
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+
+
+
+        <div class="container-fluid">
+            <div class="col-md-2">
+                <h4>The Numbers</h4>
+                <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
+                <ul>
+                    <li>Games Played: {{summary_count}}</li>
+                    <li>Write ups: {{ writeup_count}}</li>
+                    <li>Comments: {{ comment_count}}</li>
+                    <li>Number of Characters: {{character_count}}</li>
+                    <li>Races:
+                    <ul>
+                        {% for r in races %}
+                            <li>{{r.race}}: {{r.the_count}}</li>
+                        {% endfor %}
+                    </ul></li>
+                    <li>Classes:
+                    <ul>
+                        {% for c in classes %}
+                            <li>{{c.character_class}}: {{c.the_count}}</li>
+                        {% endfor %}
+                    </ul></li>
+                    <li>Total Party Levels: {{party_level.level__sum}}</li>
+                    <li>Average Party Leves: {{party_level.level__avg}}</li>
+                </ul>
+
+                <!-- TODO: global open table Stats. N games, N characters, APL, N deaths etc... -->
+            </div>
+            <div class="col-md-7">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+                <div class="col-md-3">
+                    <nav>
+                     <ul class="nav nav-pills nav-stacked">
+                        <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
+                        <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
+                        {% for w_date in writeup_archive %}
+                            <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
+                        {% for s_date in summary_archive %}
+                            <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </nav>
+                </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
 
 
-                <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Characters<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'characters:list_characters' %}">List Characters</a></li>
-                                <li><a href="{% url 'characters:add_character' %}">Add Character</a></li>
-                    </ul>
-                </li>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
+
+        <script type="text/javascript" src="{% url "tinymce-js" "NAME" %}"></script>
+
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
 
 
 
-
-                <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Write Ups<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'writeups:list_writeups' %}">List Write Ups</a></li>
-                                <li><a href="{% url 'writeups:add_writeup' %}">Add Write Up</a></li>
-                    </ul>
-                </li>
-
-
-                <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Session Summaries<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'writeups:list_summaries' %}">List Summaries</a></li>
-                                <li><a href="{% url 'writeups:add_summary' %}">Add Summary</a></li>
-                    </ul>
-                </li>
-
-
-                <li><a href="/admin/">Admin</a></li>
-            </ul>
-
-            {% if user.is_authenticated %}
-                <p class="navbar-form navbar-right"><span class="btn btn-default">Welcome {{ user.username }}</span><a class="btn btn-primary" href='{% url "logout" %}'>Logout</a></p>
-            {% else %}
-                <form class="navbar-form navbar-right" id="login_form" method="POST" action='{% url "login" %}?next={{request.path}}'>
-                    {% csrf_token %}
-                    <div class="form-group">
-                    <input type="text" class="form-control", name="username" placeholder="username">
-                    <input type="password" class="form-control" name="password" placeholder="password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-            {% endif %}
-        </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
-</nav>
-
-<div class="container-fluid">
-    <div class="col-md-2">
-        <h4>The Numbers</h4>
-        <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
-        <ul>
-            <li>Games Played: {{summary_count}}</li>
-            <li>Write ups: {{ writeup_count}}</li>
-            <li>Comments: {{ comment_count}}</li>
-            <li>Number of Characters: {{character_count}}</li>
-            <li>Races:
-            <ul>
-                {% for r in races %}
-                    <li>{{r.race}}: {{r.the_count}}</li>
-                {% endfor %}
-            </ul></li>
-            <li>Classes:
-            <ul>
-                {% for c in classes %}
-                    <li>{{c.character_class}}: {{c.the_count}}</li>
-                {% endfor %}
-            </ul></li>
-            <li>Total Party Levels: {{party_level.level__sum}}</li>
-            <li>Average Party Leves: {{party_level.level__avg}}</li>
-        </ul>
-
-        <!-- TODO: global open table Stats. N games, N characters, APL, N deaths etc... -->
-    </div>
-    <div class="col-md-7">
-        {% block content %}
-
-        {% endblock %}
-    </div>
-        <div class="col-md-3">
-            <nav>
-             <ul class="nav nav-pills nav-stacked">
-                <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
-                <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
-                {% for w_date in writeup_archive %}
-                    <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
-                {% endfor %}
-            </ul>
-            <ul class="nav nav-pills nav-stacked">
-                <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
-                {% for s_date in summary_archive %}
-                    <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
-                {% endfor %}
-            </ul>
-            </nav>
-        </div>
-</div>
-
-
-<script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="{% url "tinymce-js" "NAME" %}"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
-
-
-
-</body>
+    </body>
 </html>
