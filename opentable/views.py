@@ -24,14 +24,19 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
 
-    redirectPath = request.GET['next']
-    print redirectPath
-    if redirectPath == '/logout/' or redirectPath is None:
-        redirectPath = '/'
+                redirectPath = request.GET['next']
+                print redirectPath
+                return HttpResponseRedirect(redirectPath)
+        else:
+            return HttpResponseRedirect('/')
 
-    print redirectPath
+    else:
+        next_page = request.GET['next']
+        return render_to_response('opentable/login.html', {'next_page': next_page}, context_instance=RequestContext(request))
 
-    return HttpResponseRedirect(redirectPath)
+
+
+
 
 
 def user_logout(request):
