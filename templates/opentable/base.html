@@ -185,39 +185,49 @@
                 <table class="table table-condensed stats-table">
                 <tr>
                     <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
-                </tr>
-                <tr>
+
                     <td>Write ups</td><td><span class="badge">{{ writeup_count}}</span></td>
                 </tr>
                 <tr>
                     <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
-                </tr>
-                <tr>
+
                     <td>Characters </td><td><span class="badge">{{character_count}}</span></td>
                 </tr>
                 <tr>
                     <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
-                </tr>
-                <tr>
+
                     <td>APL </td><td><span class="badge">{{party_level.level__avg|floatformat}}</span></td>
                 </tr>
                 <tr>
-                    <td>Character Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
+                    <td>Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
+
+                    <td>Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
                 </tr>
+                <tr><td colspan="4"><h5>Races:</h5></td></tr>
                 <tr>
-                    <td>Deceased Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
-                </tr>
-                <tr><td colspan="2"><h5>Races:</h5></td></tr>
                     {% for r in races %}
-                        <tr>
+
                         <td>{{r.race}}</td> <td><span class="badge">{{r.the_count}}</span></td>
-                        </tr>
+                        {% if forloop.counter|divisibleby:"2" %}
+                            </tr>
+                            <tr>
+                        {% endif %}
+                        {% if forloop.last %}
+                            </tr>
+                        {% endif %}
                     {% endfor %}
-                <tr><td colspan="2"><h5>Classes:</h5></td></tr>
+
+                <tr><td colspan="4"><h5>Classes:</h5></td></tr>
+                <tr>
                     {% for c in classes %}
-                        <tr>
                         <td>{{c.character_class}}</td> <td><span class="badge">{{c.the_count}}</span></td>
-                        </tr>
+                        {% if forloop.counter|divisibleby:"2" and not forloop.last %}
+                            </tr>
+                            <tr>
+                        {% endif %}
+                        {% if forloop.last %}
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </table>
             </div>
