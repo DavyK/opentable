@@ -13,8 +13,6 @@ class Writeup(models.Model):
 
     author_character = models.ForeignKey(Character, default=1)
 
-    title = models.CharField(max_length=100)
-
     submission_date = models.DateTimeField(auto_now_add=True)
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)

@@ -26,8 +26,10 @@
 
 
     </div>
+    {% if this_writeup_comments|length > 0 %}
     <h4>Comments:</h4>
     <div class="panel panel-default comments-section">
+
         {% for comment in this_writeup_comments %}
             <div class="comment-box">
                 {% if user.is_authenticated %}
@@ -52,6 +54,9 @@
             </div>
         {% endfor %}
     </div>
+    {% else %}
+    <h4>No comments yet...</h4>
+    {% endif %}
 
     {% if user.is_authenticated %}
     <div class="comment-form">

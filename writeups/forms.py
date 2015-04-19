@@ -22,7 +22,7 @@ class WriteupForm(forms.ModelForm):
 
     class Meta:
         model = Writeup
-        fields = ['author', 'author_character', 'title', 'post_content']
+        fields = ['author', 'author_character', 'post_content']
 
 
 class CommentForm(forms.ModelForm):
