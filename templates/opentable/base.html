@@ -77,65 +77,69 @@
 
 
         <div class="container-fluid">
-            <div class="col-md-2">
-                <h4>The Numbers</h4>
-                <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
-                <ul>
-                    <li>Games Played: {{summary_count}}</li>
-                    <li>Write ups: {{ writeup_count}}</li>
-                    <li>Comments: {{ comment_count}}</li>
-                    <li>Number of Characters: {{character_count}}</li>
-                    <li>Races:
-                    <ul>
-                        {% for r in races %}
-                            <li>{{r.race}}: {{r.the_count}}</li>
-                        {% endfor %}
-                    </ul></li>
-                    <li>Classes:
-                    <ul>
-                        {% for c in classes %}
-                            <li>{{c.character_class}}: {{c.the_count}}</li>
-                        {% endfor %}
-                    </ul></li>
-                    <li>Total Party Levels: {{party_level.level__sum}}</li>
-                    <li>Average Party Leves: {{party_level.level__avg}}</li>
-                </ul>
 
-                <!-- TODO: global open table Stats. N games, N characters, APL, N deaths etc... -->
+            <div class="col-sm-2">
+                <nav>
+                 <ul class="nav nav-pills nav-stacked">
+                    <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
+                    <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
+                    {% for w_date in writeup_archive %}
+                        <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
+                    {% endfor %}
+                </ul>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
+                    {% for s_date in summary_archive %}
+                        <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
+                    {% endfor %}
+                </ul>
+                </nav>
             </div>
-            <div class="col-md-7">
+
+            <div class="col-sm-7">
                 {% block content %}
 
                 {% endblock %}
             </div>
-                <div class="col-md-3">
-                    <nav>
-                     <ul class="nav nav-pills nav-stacked">
-                        <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
-                        <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
-                        {% for w_date in writeup_archive %}
-                            <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
-                        {% endfor %}
-                    </ul>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
-                        {% for s_date in summary_archive %}
-                            <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
-                        {% endfor %}
-                    </ul>
-                    </nav>
-                </div>
-        </div>
 
+
+            <div class="col-sm-3">
+                <h4>The Numbers</h4>
+                <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
+                <div>
+                <span class="h5">Games Played</span> <span class="badge">{{summary_count}}</span>
+                <span class="h5">Write ups</span> <span class="badge">{{ writeup_count}}</span>
+                <span class="h5">Comments</span> <span class="badge">{{ comment_count}}</span>
+                <span class="h5">Characters </span> <span class="badge">{{character_count}}</span>
+                <span class="h5">TPL </span> <span class="badge">{{party_level.level__sum}}</span>
+                <span class="h5">APL </span> <span class="badge">{{party_level.level__avg}}</span>
+                </div>
+                <h5>Races:</h5>
+                <table class="table table-condensed">
+                    {% for r in races %}
+                        <tr>
+                        <td>{{r.race}}</td> <td><span class="badge">{{r.the_count}}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <h5>Classes:</h5>
+                <table class="table table-condensed">
+                    {% for c in classes %}
+                        <tr>
+                        <td>{{c.character_class}}</td> <td><span class="badge">{{c.the_count}}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div><!--/.container-fluid-->
 
         <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
 
-        <script type="text/javascript" src="{% url "tinymce-js" "NAME" %}"></script>
+        <script type="text/javascript" src="{% url 'tinymce-js' 'NAME' %}" ></script>
 
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
-
-
 
     </body>
 </html>
