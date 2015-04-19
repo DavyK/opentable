@@ -124,3 +124,17 @@ p {
 #summary-add-form{
     padding: 20px;
 }
+
+.writeup-short{
+    margin-top: 5px;
+    margin-bottom: 35px;
+}
+
+.writeup-short-body {
+    margin: 5px;
+    padding: 5px;
+}
+
+.writeups-list {
+    margin-top: 10px;
+}

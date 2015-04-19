@@ -2,6 +2,7 @@
 
 {% block content %}
 <div>
+    <div class="pagination">
     {% if writeups.has_previous %}
     <a href="?page={{ writeups.previous_page_number }}"><button type="button" class="btn btn-primary">&lt;&lt; Back</button></a>
     {% else %}
@@ -13,25 +14,29 @@
     {% else %}
         <button type="button" class="btn btn-default">Next</button>
     {% endif %}
+    </div>
 
+    <div class="writeups-list">
     {% if writeups|length > 0 %}
         {% for writeup in writeups %}
-            <div>
-                <a href="{% url 'writeups:show_writeup' writeup.id %}"><h3>{{writeup.author_character}}</h3></a>
-                <div>
-                    {{writeup.post_content|truncatechars:200|safe}}  <a href="{% url 'writeups:show_writeup' writeup.id %}">see more</a>
+            <div class="writeup-short">
+                <a href="{% url 'writeups:show_writeup' writeup.id %}"><span class="h4">{{writeup.author_character}}</span></a>
+                <span class="h6 writeup-meta">by {{writeup.author}} on {{writeup.submission_date}}</span>
+                <div class="writeup-short-body">
+                    {{writeup.post_content|truncatechars_html:200|safe}}  <a href="{% url 'writeups:show_writeup' writeup.id %}">see more</a>
                 </div>
-                <h6>by {{writeup.author}} on {{writeup.submission_date}}</h6>
+
             </div>
 
         {% endfor %}
     {% else %}
 
-        <div>
+
             <h3>Ooops!</h3>
             <p>This character doesn't have any write ups yet.</p>
-        </div>
+
     {% endif %}
+    </div>
 
 
 </div>
