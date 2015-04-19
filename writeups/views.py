@@ -1,5 +1,6 @@
 import calendar, datetime
 
+from django.db.models import Count
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -36,9 +37,11 @@ def list_writeups(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    characters = Character.objects.all()
-    data = {'characters': characters, 'writeups': writeups,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+    comment_counts = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
+
+    writeups_and_comment_counts = zip(writeups, comment_counts)
+
+    data = {'writeups_and_comment_counts': writeups_and_comment_counts}
 
     return render_to_response('writeups/index_writeups.html', data, context_instance=RequestContext(request))
 
