@@ -1,0 +1,30 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+
+    <div class="contain-fluid">
+
+        <div class="col-xs-6 col-xs-offset-3">
+
+            <div id="login-form" class="panel panel-default">
+
+                <h4>Register for an account</h4>
+
+                {% load crispy_forms_tags %}
+
+                <form method="POST" action='{% url "register_new_user" %}'>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    {{new_user_form|crispy}}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+
+                </form>
+                <h6>New users are defaulted to inactive. Once registered, ask your admin to activate you.</h6>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

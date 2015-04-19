@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', 'opentable.views.user_login', name='login'),
     url(r'^logout/', 'opentable.views.user_logout', name='logout'),
+    url(r'^register/', 'opentable.views.register_new_user', name='register_new_user'),
     url(r'^tinymce/', include('tinymce.urls')),
 )
 
