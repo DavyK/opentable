@@ -10,6 +10,8 @@ def add_sidebar_data(request):
 
     data = {}
 
+    data['recently_added_characters'] = Character.objects.order_by('-character_updated')[:5]
+
     data['writeup_archive'] = get_writeup_archive()
 
     data['summary_archive'] = get_summary_archive()
@@ -21,6 +23,10 @@ def add_sidebar_data(request):
     data['comment_count'] = Comment.objects.all().count()
 
     data['summary_count'] = SessionSummary.objects.all().count()
+
+    data['character_deaths'] = Character.objects.aggregate(Sum('num_deaths'))
+
+    data['deceased_characters'] = Character.objects.filter(deceased=True).count()
 
     data['races'] = Character.objects.values('race').annotate(the_count=Count('race'))
 

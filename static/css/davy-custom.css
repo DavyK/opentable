@@ -23,10 +23,6 @@ body {
     margin: 20px;
 }
 
-.pop-up {
-    display: none;
-}
-
 .character-token-small {
 
     height: 40px;
@@ -110,4 +106,17 @@ p {
 
 .sidebar-text {
     text-align: left;
+}
+
+.panel-body {
+    padding: 0px;
+}
+
+.panel-body > table{
+    margin-bottom:0px;
+}
+
+.stats-table {
+    margin-left: 15px;
+    margin-right: 0px;
 }

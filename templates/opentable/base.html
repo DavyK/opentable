@@ -79,21 +79,95 @@
         <div class="container-fluid">
 
             <div class="col-sm-2">
-                <nav>
-                 <ul class="nav nav-pills nav-stacked">
-                    <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
-                    <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
-                    {% for w_date in writeup_archive %}
-                        <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
-                    {% endfor %}
-                </ul>
-                <ul class="nav nav-pills nav-stacked">
-                    <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
-                    {% for s_date in summary_archive %}
-                        <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
-                    {% endfor %}
-                </ul>
+                <h4>Recent Items:</h4>
+                <div class="panel-group" id="accordion">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Characters</a>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <td><a href="{% url 'characters:list_characters' %}">All Characters</a></td>
+                                    </tr>
+                                    {% for this_character in recently_added_characters%}
+                                        <tr>
+                                            <td><a href="{% url 'characters:show_character' this_character.id %}">{{this_character.name}}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Writeups</a>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <td><a href="{% url 'writeups:list_writeups' %}">All Write Ups</a></td>
+                                    </tr>
+                                    {% for w_date in writeup_archive %}
+                                        <tr>
+                                            <td><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Summaries</a>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <td><a href="{% url 'writeups:list_summaries' %}">All summaries</a></td>
+                                    </tr>
+                                    {% for s_date in summary_archive %}
+                                    <tr>
+                                        <td><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                 <!---
+                 <nav>
+                     <ul class="nav nav-pills nav-stacked">
+                        <li><h4><a href="{% url 'characters:list_characters' %}">Characters</a></h4></li>
+                         {% for this_character in recently_added_characters %}
+                            <li><a href="{% url 'characters:show_character' this_character.id %}">{{this_character.name}}</a></li>
+                         {% endfor %}
+                        <li><h4><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></h4></li>
+                        {% for w_date in writeup_archive %}
+                            <li><a href="{% url 'writeups:archive_list_writeups' w_date|date:'m' w_date|date:'Y'  %}">{{w_date|date:"F, Y"}}</a></li>
+                        {% endfor %}
+
+                        <li><h4><a href="{% url 'writeups:list_summaries' %}">Session Summaries</a></h4></li>
+                        {% for s_date in summary_archive %}
+                            <li><a href="{% url 'writeups:archive_list_summaries' s_date|date:'m' s_date|date:'Y' %}">{{s_date|date:"F, Y"}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </nav>
+                -->
             </div>
 
             <div class="col-sm-7">
@@ -106,31 +180,44 @@
             <div class="col-sm-3">
                 <h4>The Numbers</h4>
                 <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
-                <div>
-                <span class="h5">Games Played</span> <span class="badge">{{summary_count}}</span>
-                <span class="h5">Write ups</span> <span class="badge">{{ writeup_count}}</span>
-                <span class="h5">Comments</span> <span class="badge">{{ comment_count}}</span>
-                <span class="h5">Characters </span> <span class="badge">{{character_count}}</span>
-                <span class="h5">TPL </span> <span class="badge">{{party_level.level__sum}}</span>
-                <span class="h5">APL </span> <span class="badge">{{party_level.level__avg}}</span>
-                </div>
-                <h5>Races:</h5>
-                <table class="table table-condensed">
+                <table class="table table-condensed stats-table">
+                <tr>
+                    <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
+                </tr>
+                <tr>
+                    <td>Write ups</td><td><span class="badge">{{ writeup_count}}</span></td>
+                </tr>
+                <tr>
+                    <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
+                </tr>
+                <tr>
+                    <td>Characters </td><td><span class="badge">{{character_count}}</span></td>
+                </tr>
+                <tr>
+                    <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
+                </tr>
+                <tr>
+                    <td>APL </td><td><span class="badge">{{party_level.level__avg}}</span></td>
+                </tr>
+                <tr>
+                    <td>Character Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
+                </tr>
+                <tr>
+                    <td>Deceased Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
+                </tr>
+                <tr><td colspan="2"><h5>Races:</h5></td></tr>
                     {% for r in races %}
                         <tr>
                         <td>{{r.race}}</td> <td><span class="badge">{{r.the_count}}</span></td>
                         </tr>
                     {% endfor %}
-                </table>
-                <h5>Classes:</h5>
-                <table class="table table-condensed">
+                <tr><td colspan="2"><h5>Classes:</h5></td></tr>
                     {% for c in classes %}
                         <tr>
                         <td>{{c.character_class}}</td> <td><span class="badge">{{c.the_count}}</span></td>
                         </tr>
                     {% endfor %}
                 </table>
-
             </div>
         </div><!--/.container-fluid-->
 
