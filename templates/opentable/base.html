@@ -89,7 +89,7 @@
                         <div id="collapseOne" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
-                                    <tr>
+                                    <tr class="info">
                                         <td><a href="{% url 'characters:list_characters' %}">All Characters</a></td>
                                     </tr>
                                     {% for this_character in recently_added_characters%}
@@ -110,7 +110,7 @@
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
-                                    <tr>
+                                    <tr class="info">
                                         <td><a href="{% url 'writeups:list_writeups' %}">All Write Ups</a></td>
                                     </tr>
                                     {% for w_date in writeup_archive %}
@@ -131,7 +131,7 @@
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
-                                    <tr>
+                                    <tr class="info">
                                         <td><a href="{% url 'writeups:list_summaries' %}">All summaries</a></td>
                                     </tr>
                                     {% for s_date in summary_archive %}
