@@ -37,11 +37,12 @@ def list_writeups(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    comment_counts = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
+    #comment_counts = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
 
-    writeups_and_comment_counts = zip(writeups, comment_counts)
+    #writeups_and_comment_counts = zip(writeups, comment_counts)
+    #TODO: comments and writeups no really in same order.
 
-    data = {'writeups_and_comment_counts': writeups_and_comment_counts}
+    data = {'writeups': writeups}
 
     return render_to_response('writeups/index_writeups.html', data, context_instance=RequestContext(request))
 

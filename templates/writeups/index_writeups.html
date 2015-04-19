@@ -18,7 +18,7 @@
 
     <div class="writeups-list">
     {% if writeups|length > 0 %}
-        {% for writeup, comment_count in writeups_and_comment_counts %}
+        {% for writeup in writeups %}
             <div class="writeup-short">
                 <a href="{% url 'writeups:show_writeup' writeup.id %}"><h4>{{writeup.author_character}}</h4></a>
                 <h6 class="writeup-meta">by {{writeup.author}} on {{writeup.submission_date}}</h6>
