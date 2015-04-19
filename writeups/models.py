@@ -59,4 +59,10 @@ class SessionSummary(models.Model):
 
     important_npcs = models.CharField(max_length=500)
 
-    session_date = models.DateTimeField(default=timezone.now)
+    session_date = models.DateTimeField(default=timezone.now, verbose_name='Session Date (eg. YYYY-DD-MM 00:00:00)')
+
+    class Meta:
+        ordering = ('-session_date',)
+
+
+

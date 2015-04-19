@@ -120,3 +120,7 @@ p {
     margin-left: 15px;
     margin-right: 0px;
 }
+
+#summary-add-form{
+    padding: 20px;
+}

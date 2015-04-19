@@ -3,7 +3,6 @@ from django.http import request
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary, Comment
 from django.db.models import Count, Sum, Avg
-from collections import Counter
 from opentable.views import get_summary_archive, get_writeup_archive
 
 def add_sidebar_data(request):
