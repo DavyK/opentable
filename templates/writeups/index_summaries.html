@@ -1,28 +1,36 @@
 {% extends 'opentable/base.html' %}
 
 {% block content %}
-<div>
-    <div class="pagination">
+
+  <ul class="pagination">
     {% if summaries.has_previous %}
-    <a href="?page={{ summaries.previous_page_number }}"><button type="button" class="btn btn-primary">&lt;&lt; Back</button></a>
+    <li><a href="?page={{ writeups.previous_page_number }}">Back</a></li>
     {% else %}
-        <button type="button" class="btn btn-default">Back</button>
+        <li class="disabled"><a href="#">Back</a></li>
     {% endif %}
-        <button type="button" class="btn btn-info">{{pageName}} (pg. {{ summaries.number }})</button>
+
+        {% for p in pages %}
+
+        {% if p == summaries.number %}
+            <li class="active"><a href="#">{{ summaries.number }}</a></li>
+        {% else %}
+            <li><a href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+
+        {% endfor %}
+
     {% if summaries.has_next %}
-        <a href="?page={{ summaries.next_page_number }}"><button type="button" class="btn  btn-primary">Next &gt;&gt;</button></a>
+       <li><a href="?page={{ writeups.next_page_number }}">Next</a></li>
     {% else %}
-        <button type="button" class="btn btn-default">Next</button>
+        <li class="disabled"><a href="#">Next</a></li>
     {% endif %}
-    </div>
+    </ul>
 
     <div class="writeups-list">
-    {% if summaries|length > 0 %}
         {% for summary in summaries %}
-            <div>
-                <a href="{% url 'writeups:show_summary' summary.id %}"><h4>Session {{summary.number}}</h4></a>
-                <h6 class="writeup-meta">by {{summary.gm}} on {{summary.session_date}}</h6>
                 <div class="writeup-short">
+                    <a href="{% url 'writeups:show_summary' summary.id %}"><h4>Session {{summary.number}}</h4></a>
+                    <h6 class="writeup-meta">by {{summary.gm}} on {{summary.session_date}}</h6>
                     <h5>{{summary.location}}</h5>
                     <ul class="list-inline">
                     {% for char in summary.session_characters.all %}
@@ -35,16 +43,14 @@
                     </div>
                 </div>
 
-            </div>
 
-        {% endfor %}
-    {% else %}
+
+
+    {% empty %}
             <h3>Ooops!</h3>
             <p>Looks like this character hasn't done enough adventuring yet!</p>
 
-    {% endif %}
+    {% endfor %}
     </div>
 
-
-</div>
 {% endblock %}

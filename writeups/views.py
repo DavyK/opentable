@@ -198,6 +198,8 @@ def list_summaries(request, query_set=None):
 
     paginator = Paginator(summary_queryset, 10)
 
+    pages = [i+1 for i in range(paginator.num_pages)]
+
     try:
         summaries = paginator.page(page)
     except PageNotAnInteger:
@@ -208,7 +210,7 @@ def list_summaries(request, query_set=None):
         summaries = paginator.page(paginator.num_pages)
 
 
-    data = {'summaries': summaries}
+    data = {'summaries': summaries, 'pages': pages}
 
     return render_to_response('writeups/index_summaries.html', data, context_instance=RequestContext(request))
 
