@@ -1,46 +1,55 @@
 {% extends 'opentable/base.html' %}
 
 {% block content %}
-<div>
-    <div class="pagination">
+
+    <ul class="pagination">
     {% if writeups.has_previous %}
-    <a href="?page={{ writeups.previous_page_number }}"><button type="button" class="btn btn-primary">&lt;&lt; Back</button></a>
+    <li><a href="?page={{ writeups.previous_page_number }}">Back</a></li>
     {% else %}
-        <button type="button" class="btn btn-default">Back</button>
+        <li class="disabled"><a href="#">Back</a></li>
     {% endif %}
-        <button type="button" class="btn btn-info">{{pageName}} (pg. {{ writeups.number }})</button>
+
+
+
+        {% for p in pages %}
+
+        {% if p == writeups.number %}
+            <li class="active"><a href="#">{{ writeups.number }}</a></li>
+        {% else %}
+            <li><a href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+
+        {% endfor %}
+
+
     {% if writeups.has_next %}
-        <a href="?page={{ writeups.next_page_number }}"><button type="button" class="btn  btn-primary">Next &gt;&gt;</button></a>
+       <li><a href="?page={{ writeups.next_page_number }}">Next</a></li>
     {% else %}
-        <button type="button" class="btn btn-default">Next</button>
+        <li class="disabled"><a href="#">Next</a></li>
     {% endif %}
-    </div>
+    </ul>
 
     <div class="writeups-list">
-    {% if writeups|length > 0 %}
-        {% for writeup in writeups %}
+        {% for writeup, count in writeups_and_comment_counts %}
             <div class="writeup-short">
                 <a href="{% url 'writeups:show_writeup' writeup.id %}"><h4>{{writeup.author_character}}</h4></a>
                 <h6 class="writeup-meta">by {{writeup.author}} on {{writeup.submission_date}}</h6>
 
                 <div class="writeup-short-body">
                     {{writeup.post_content|truncatechars_html:200|safe}}
-                    <span class="writeup-meta">Comments <span class="badge">{{comment_count.the_count}}</span></span>
+                    <span class="writeup-meta">Comments <span class="badge">{{count}}</span></span>
                 </div>
-
-
             </div>
 
-        {% endfor %}
-    {% else %}
+        {% empty %}
+
 
 
             <h3>Ooops!</h3>
-            <p>This character doesn't have any write ups yet.</p>
+            <p>No write ups here yet.</p>
 
-    {% endif %}
+    {% endfor %}
     </div>
 
 
-</div>
 {% endblock %}

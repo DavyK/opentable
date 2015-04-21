@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, RequestContext, render_to_respons
 from django.contrib.auth.forms import UserCreationForm
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary
+from opentable.forms import LoginForm
 
 
 def home(request):
@@ -15,25 +16,32 @@ def home(request):
 
 def user_login(request):
 
+    login_form = LoginForm()
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(username=username, password=password)
+        login_form = LoginForm(request.POST)
 
-        if user:
-            if user.is_active:
+        if login_form.is_valid():
+
+            user = authenticate(username=username, password=password)
+
+            if user and user.is_active:
                 login(request, user)
 
                 redirectPath = request.GET['next']
-                print redirectPath
-                return HttpResponseRedirect(redirectPath)
-        else:
-            return HttpResponseRedirect('/')
 
-    else:
+                return HttpResponseRedirect(redirectPath)
+
+
+    if 'next' in request.GET.keys():
         next_page = request.GET['next']
-        return render_to_response('opentable/login.html', {'next_page': next_page}, context_instance=RequestContext(request))
+    else:
+        next_page = '/'
+
+    return render_to_response('opentable/login.html', {'login_form': login_form, 'next_page': next_page}, context_instance=RequestContext(request))
 
 
 def user_logout(request):

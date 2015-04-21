@@ -10,10 +10,21 @@
                 <form method="POST" action='{% url "login" %}?next={{next_page}}'>
                     {% csrf_token %}
                     <div class="form-group">
-                    <label for="username">Username:
-                    <input type="text" class="form-control", name="username" placeholder="username"></label>
-                    <label for="password">Password:
-                    <input type="password" class="form-control" name="password" placeholder="password"></label>
+                    <div class="form-field-spacer">
+                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                    {{ login_form.username.errors }}
+                    {{ login_form.username }}
+                    </div>
+
+                    <div class="form-field-spacer">
+                    <label for="{{ form.password.id_for_label }}">Password:</label>
+                    {{ login_form.password.errors }}
+                    {{ login_form.password }}
+                    </div>
+
+
+
+
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>

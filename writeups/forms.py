@@ -7,9 +7,8 @@ from crispy_forms.layout import Layout, Div, Submit
 from crispy_forms.bootstrap import InlineCheckboxes
 from django import forms
 
-
-
 class WriteupForm(forms.ModelForm):
+
 
     def __init__(self, *args, **kwargs):
         super(WriteupForm, self).__init__(*args, **kwargs)

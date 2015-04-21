@@ -1,11 +1,13 @@
-import calendar, datetime
+import calendar
+import datetime
 
-from django.db.models import Count
+
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from opentable.views import get_writeup_archive, get_summary_archive
+from django.db.models import Count
+
 from writeups.models import Writeup, Comment, SessionSummary
 from writeups.forms import WriteupForm, CommentForm, SummaryForm
 from characters.models import Character
@@ -28,6 +30,8 @@ def list_writeups(request, query_set=None):
 
     paginator = Paginator(writeup_queryset, 10)
 
+    pages = [i+1 for i in range(paginator.num_pages)]
+
     try:
         writeups = paginator.page(page)
     except PageNotAnInteger:
@@ -37,12 +41,21 @@ def list_writeups(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    #comment_counts = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
+    tmp = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
+    counts = {}
+    for c in tmp:
+        counts[c['writeup']] = c['the_count']
 
-    #writeups_and_comment_counts = zip(writeups, comment_counts)
-    #TODO: comments and writeups no really in same order.
+    comment_counts = []
+    for w in writeups.object_list:
+        try:
+            comment_counts.append(counts[w.id])
+        except KeyError:
+            comment_counts.append(0)
 
-    data = {'writeups': writeups}
+    writeups_and_comment_counts = zip(writeups, comment_counts)
+
+    data = {'writeups': writeups,'pages': pages, 'writeups_and_comment_counts': writeups_and_comment_counts}
 
     return render_to_response('writeups/index_writeups.html', data, context_instance=RequestContext(request))
 
@@ -97,10 +110,7 @@ def show_writeup(request, writeup_id, comment_id=None):
     if comment_id is not None:
         comment_form.helper.form_action = '/writeups/editComment/' + writeup_id + '/' + comment_id + '/'
 
-    characters = Character.objects.all()
-
-    data = {'this_writeup': this_writeup, 'this_writeup_comments':this_writeup_comments, 'characters': characters,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+    data = {'this_writeup': this_writeup, 'this_writeup_comments':this_writeup_comments}
 
     if request.user.is_authenticated():
         data['comment_form'] = comment_form
@@ -138,10 +148,8 @@ def add_writeup(request, writeup_id=None):
     if writeup_id is not None:
         writeup_form.helper.form_action = '/writeups/editWriteup/' + writeup_id + '/'
 
-    characters = Character.objects.all()
-    writeups = Writeup.objects.all()
-    data = {'writeup_form': writeup_form, 'characters': characters, 'writeups': writeups,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+
+    data = {'writeup_form': writeup_form}
 
     return render_to_response('writeups/add_writeup.html', data, context_instance=RequestContext(request))
 
@@ -159,11 +167,8 @@ def delete_writeup(request, writeup_id):
 ########################################################################################################################
 
 def add_comment(request, writeup_id, comment_id=None):
-    characters = Character.objects.all()
-    writeups = Writeup.objects.all()
-    data = { 'characters': characters, 'writeups': writeups,
-             'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
 
+    data = {}
     url_to_render = '/writeups/showWriteup/' + writeup_id + '/'
 
     return render_to_response(url_to_render, data, context_instance=RequestContext(request))
@@ -202,9 +207,8 @@ def list_summaries(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         summaries = paginator.page(paginator.num_pages)
 
-    characters = Character.objects.all()
-    data = {'characters': characters, 'summaries': summaries,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+
+    data = {'summaries': summaries}
 
     return render_to_response('writeups/index_summaries.html', data, context_instance=RequestContext(request))
 
@@ -228,9 +232,7 @@ def character_list_summaries(request, character_id):
 
 def show_summary(request, summary_id):
     this_summary = SessionSummary.objects.get(pk=summary_id)
-    characters = Character.objects.all()
-    data = {'this_summary': this_summary, 'characters': characters,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+    data = {'this_summary': this_summary}
     return render_to_response('writeups/show_summary.html', data, context_instance=RequestContext(request))
 
 @login_required
@@ -261,10 +263,7 @@ def add_summary(request, summary_id=None):
     if summary_id is not None:
         summary_form.helper.form_action = '/writeups/editSummary/' + summary_id + '/'
 
-    characters = Character.objects.all()
-    summaries = SessionSummary.objects.all()
-    data = {'summary_form': summary_form, 'characters': characters, 'summaries': summaries,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+    data = {'summary_form': summary_form}
 
     return render_to_response('writeups/add_summary.html', data, context_instance=RequestContext(request))
 

@@ -74,7 +74,7 @@ body {
 
 .writeup-meta {
     color: rgb(128, 128, 128);
-    font-size: 80%;
+    font-size: 90%;
 }
 
 .comments-section{
@@ -142,5 +142,10 @@ p {
 #login-form {
     padding: 10px;
     margin-top: 100px;
+}
+
+.form-field-spacer {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 

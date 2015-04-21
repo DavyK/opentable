@@ -1,9 +1,12 @@
 __author__ = 'davidkavanagh'
+
 from django.http import request
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary, Comment
 from django.db.models import Count, Sum, Avg
 from opentable.views import get_summary_archive, get_writeup_archive
+from opentable.forms import LoginForm
+
 
 def add_sidebar_data(request):
 
@@ -32,5 +35,8 @@ def add_sidebar_data(request):
     data['classes'] = Character.objects.values('character_class').annotate(the_count=Count('character_class'))
 
     data['party_level'] = Character.objects.values('level').aggregate(Sum('level'), Avg('level'))
+
+    if 'login_form' not in data.keys():
+        data['login_form'] = LoginForm()
 
     return data
