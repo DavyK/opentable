@@ -36,7 +36,6 @@ def add_sidebar_data(request):
 
     data['party_level'] = Character.objects.values('level').aggregate(Sum('level'), Avg('level'))
 
-    if 'login_form' not in data.keys():
-        data['login_form'] = LoginForm()
+    data['navbar_login_form'] = LoginForm()
 
     return data
