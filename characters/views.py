@@ -9,12 +9,12 @@ from opentable.views import get_writeup_archive, get_summary_archive
 
 # Create your views here.
 levels = {
-     '1': 0,       '2': 2000,     '3': 5000,     '4': 9000,
-     '5': 15000,   '6': 23000,    '7': 35000,    '8': 51000,
-     '9': 75000,   '10': 105000,  '11': 155000,  '12': 220000,
-     '13': 315000, '14': 445000,  '15': 635000,  '16': 890000,
-     '17': 1300000,'18': 1800000, '19': 2550000, '20': 3600000}
-
+         '1': 0,        '2': 2000,     '3': 5000,     '4': 9000,
+         '5': 15000,    '6': 23000,    '7': 35000,    '8': 51000,
+         '9': 75000,    '10': 105000,  '11': 155000,  '12': 220000,
+         '13': 315000,  '14': 445000,  '15': 635000,  '16': 890000,
+         '17': 1300000, '18': 1800000, '19': 2550000, '20': 3600000
+}
 
 
 def list_characters(request):
@@ -40,7 +40,6 @@ def show_character(request, character_id):
     else:
         xp_to_next_level = '+++'
 
-
     characters = Character.objects.all()
     data = {'this_character': this_character, 'characters': characters,
             'sessions_in': sessions_in, 'sessions_all': sessions_all,
@@ -48,10 +47,11 @@ def show_character(request, character_id):
             'character_writeups': character_writeups}
     return render_to_response('characters/characterStats.html', data, context_instance=RequestContext(request))
 
+
 @login_required
 def add_character(request, character_id=None):
 
-    # TODO: currently view sets player as current user if current user is not superuser, maybe change form so that field is autofilled and greyed out
+    # TODO: currently view sets player as current user if current user is not superuser
 
     if character_id is not None:
         this_character = Character.objects.get(pk=character_id)
@@ -72,7 +72,6 @@ def add_character(request, character_id=None):
             redirect_to_url = '/showCharacter/{0}/'.format(this_character.id)
 
             return HttpResponseRedirect(redirect_to_url)
-
 
     else:
         if character_id is not None:
@@ -97,10 +96,11 @@ def delete_character(request, character_id):
 
     return HttpResponseRedirect('/')
 
+
 @login_required
 def add_xp(request, character_id):
 
-    #update model with new XP value
+    # update model with new XP value
     this_character = Character.objects.get(pk=character_id)
 
     this_character.current_xp += int(request.POST['xp_to_add'])

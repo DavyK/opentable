@@ -1,8 +1,7 @@
 __author__ = 'davidkavanagh'
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from characters import views
-from django.contrib import admin
 
 urlpatterns = patterns('',
     # Examples:

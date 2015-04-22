@@ -35,7 +35,7 @@
                     <ul class="list-inline">
                     {% for char in summary.session_characters.all %}
                         <!-- TODO: make these links to character stats pages - with tool tips! -->
-                        <li><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></img></li>
+                        <li><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></li>
                     {% endfor %}
                     </ul>
                     <div class="writeup-short-body">

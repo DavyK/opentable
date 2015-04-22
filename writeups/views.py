@@ -10,7 +10,6 @@ from django.db.models import Count
 
 from writeups.models import Writeup, Comment, SessionSummary
 from writeups.forms import WriteupForm, CommentForm, SummaryForm
-from characters.models import Character
 
 
 ########################################################################################################################
@@ -55,7 +54,7 @@ def list_writeups(request, query_set=None):
 
     writeups_and_comment_counts = zip(writeups, comment_counts)
 
-    data = {'writeups': writeups,'pages': pages, 'writeups_and_comment_counts': writeups_and_comment_counts}
+    data = {'writeups': writeups, 'pages': pages, 'writeups_and_comment_counts': writeups_and_comment_counts}
 
     return render_to_response('writeups/index_writeups.html', data, context_instance=RequestContext(request))
 
@@ -110,7 +109,7 @@ def show_writeup(request, writeup_id, comment_id=None):
     if comment_id is not None:
         comment_form.helper.form_action = '/writeups/editComment/' + writeup_id + '/' + comment_id + '/'
 
-    data = {'this_writeup': this_writeup, 'this_writeup_comments':this_writeup_comments}
+    data = {'this_writeup': this_writeup, 'this_writeup_comments': this_writeup_comments}
 
     if request.user.is_authenticated():
         data['comment_form'] = comment_form
@@ -148,7 +147,6 @@ def add_writeup(request, writeup_id=None):
     if writeup_id is not None:
         writeup_form.helper.form_action = '/writeups/editWriteup/' + writeup_id + '/'
 
-
     data = {'writeup_form': writeup_form}
 
     return render_to_response('writeups/add_writeup.html', data, context_instance=RequestContext(request))
@@ -167,7 +165,8 @@ def delete_writeup(request, writeup_id):
 ########################################################################################################################
 
 def add_comment(request, writeup_id, comment_id=None):
-
+    """ The logic of adding the comment to the DB is handled in show writeup
+    """
     data = {}
     url_to_render = '/writeups/showWriteup/' + writeup_id + '/'
 
@@ -209,7 +208,6 @@ def list_summaries(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         summaries = paginator.page(paginator.num_pages)
 
-
     data = {'summaries': summaries, 'pages': pages}
 
     return render_to_response('writeups/index_summaries.html', data, context_instance=RequestContext(request))
@@ -236,6 +234,7 @@ def show_summary(request, summary_id):
     this_summary = SessionSummary.objects.get(pk=summary_id)
     data = {'this_summary': this_summary}
     return render_to_response('writeups/show_summary.html', data, context_instance=RequestContext(request))
+
 
 @login_required
 def add_summary(request, summary_id=None):

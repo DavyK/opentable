@@ -9,7 +9,7 @@
             {% if user.is_superuser %}
                 <div class="dropdown gear-menu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{% url 'writeups:edit_summary' this_summary.id %}">Edit</a></li>
@@ -25,7 +25,7 @@
         <ul class="list-inline">
             <li><h5>PCs:</h5></li>
             {% for char in this_summary.session_characters.all %}
-                <li><h6 class="character-token-label">{{char.name}}</h6><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></img></li>
+                <li><h6 class="character-token-label">{{char.name}}</h6><img class="character-token-small" src="{{MEDIA_URL}}/{{char.character_token}}"></li>
             {% endfor %}
         </ul>
         <div class="writeup-text">

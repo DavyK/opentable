@@ -9,7 +9,7 @@
             {% if user == this_writeup.author or user.is_superuser %}
                 <div class="dropdown gear-menu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{% url 'writeups:edit_writeup' this_writeup.id %}">Edit</a></li>
@@ -36,7 +36,7 @@
                     {% if user == comment.author or user.is_superuser %}
                         <div class="dropdown gear-menu">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                                <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                                <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'writeups:edit_comment' this_writeup.id comment.id %}">Edit</a></li>

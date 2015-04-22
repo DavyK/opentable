@@ -25,7 +25,9 @@ class Migration(migrations.Migration):
                 ('xp_awarded', models.IntegerField()),
                 ('summary_content', models.TextField()),
                 ('important_npcs', models.CharField(max_length=500)),
-                ('session_date', models.DateTimeField(default=datetime.datetime(2015, 4, 9, 1, 3, 57, 145101, tzinfo=utc))),
+                ('session_date', models.DateTimeField(
+                    default=datetime.datetime(2015, 4, 9, 1, 3, 57, 145101, tzinfo=utc)
+                )),
                 ('gm', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('session_characters', models.ManyToManyField(to='characters.Character')),
             ],

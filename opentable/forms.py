@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.admin import User
+from django.contrib.auth.admin import User, UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.db.models import Q
 
@@ -15,7 +15,6 @@ class LoginForm(forms.Form):
         'class': 'form-control',
         'placeholder': 'password',
     }), label='')
-
 
     class Meta:
         fields = ['username', 'password']
@@ -51,3 +50,21 @@ class LoginForm(forms.Form):
 
         # all good
         return True
+
+
+class CustomUserCreationForm(UserCreationForm):
+
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
+

@@ -8,7 +8,7 @@
         {% if user.is_superuser %}
             <div class="dropdown gear-menu">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                    <img class="icon" src="{{MEDIA_URL}}/images/gear.png"></img>
+                    <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'characters:edit_character' this_character.id %}">Edit</a></li>
@@ -22,7 +22,7 @@
     <a class="btn btn-primary" href="{% url 'writeups:character_list_summaries' this_character.id %}">Sessions</a>
     <div class="row writeup-box">
         <div class="col-md-4 writeup-box-column">
-            <img class="character-token-big" src="{{MEDIA_URL}}/{{this_character.character_token}}"></img>
+            <img class="character-token-big" src="{{MEDIA_URL}}/{{this_character.character_token}}">
         </div>
         <div class="col-md-4 writeup-box-column">
             <h5>Played by {{this_character.player|capfirst}}</h5>

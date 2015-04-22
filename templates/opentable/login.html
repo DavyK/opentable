@@ -10,8 +10,10 @@
                 <form method="POST" action='{% url "login" %}?next={{next_page}}'>
                     {% csrf_token %}
                     <div class="form-group">
+                    {{ login_form.non_field_errors }}
                     <div class="form-field-spacer">
-                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                    <!--suppress XmlInvalidId -->
+                        <label for="{{ form.username.id_for_label }}">Username:</label>
                     {{ login_form.username.errors }}
                     {{ login_form.username }}
                     </div>

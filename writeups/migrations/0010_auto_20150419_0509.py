@@ -19,7 +19,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sessionsummary',
             name='session_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'Session Date (eg. YYYY-DD-MM 00:00:00)'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name=b'Session Date (eg. YYYY-DD-MM 00:00:00)'),
             preserve_default=True,
         ),
     ]

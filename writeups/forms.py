@@ -1,14 +1,13 @@
 __author__ = 'davidkavanagh'
 
 from writeups.models import Writeup, Comment, SessionSummary
-from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit
 from crispy_forms.bootstrap import InlineCheckboxes
 from django import forms
 
-class WriteupForm(forms.ModelForm):
 
+class WriteupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(WriteupForm, self).__init__(*args, **kwargs)
@@ -54,7 +53,7 @@ class SummaryForm(forms.ModelForm):
             Div(
                 Div('gm', css_class='col-md-6',),
                 Div('number', css_class='col-md-6',),
-            css_class='row',
+                css_class='row',
             ),
             'location',
             InlineCheckboxes('session_characters'),
@@ -63,7 +62,7 @@ class SummaryForm(forms.ModelForm):
                 Div('important_npcs', css_class='col-md-4',),
                 Div('xp_awarded', css_class='col-md-4',),
                 Div('session_date', css_class='col-md-4'),
-            css_class='row',
+                css_class='row',
             ),
         )
 

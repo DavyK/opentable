@@ -7,6 +7,7 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class Writeup(models.Model):
 
     author = models.ForeignKey(User)
@@ -40,6 +41,7 @@ class Comment(models.Model):
 
     def __unicode__(self):
             return 'comment by {0}'.format(self.author)
+
 
 class SessionSummary(models.Model):
 
