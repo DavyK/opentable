@@ -1,9 +1,11 @@
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
-from characters.models import Character
-from characters.forms import CharacterForm
-from writeups.models import Writeup, SessionSummary
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+
+from characters.models import Character
+from characters.forms import CharacterForm, CharacterSearchForm
+from writeups.models import Writeup, SessionSummary
 from opentable.views import get_writeup_archive, get_summary_archive
 
 
@@ -19,9 +21,19 @@ levels = {
 
 def list_characters(request):
 
+    search_form = CharacterSearchForm(None)
+
     characters = Character.objects.all()
 
-    data = {'characters': characters}
+    if request.method == 'POST':
+        search_text = request.POST['search']
+        if search_text:
+            characters = characters.filter(Q(name__icontains=search_text) |
+                                           Q(character_class__icontains=search_text) |
+                                           Q(race__icontains=search_text))
+
+
+    data = {'characters': characters, 'search_form': search_form}
 
     return render_to_response('characters/characterIndex.html', data, context_instance=RequestContext(request))
 
@@ -45,6 +57,7 @@ def show_character(request, character_id):
             'sessions_in': sessions_in, 'sessions_all': sessions_all,
             'xp_to_next_level': xp_to_next_level,
             'character_writeups': character_writeups}
+
     return render_to_response('characters/characterStats.html', data, context_instance=RequestContext(request))
 
 

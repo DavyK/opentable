@@ -14,6 +14,15 @@ $(document).ready(function(){
 
 
 {% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 search-bar">
+            {% crispy search_form search_form.helper %}
+    </div>
+</div>
+
     {% for character in characters %}
     {% if forloop.first %}
         <div class="row">
