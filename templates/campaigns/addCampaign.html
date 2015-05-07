@@ -1,0 +1,16 @@
+{% extends 'opentable/base.html' %}
+
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+    <div class="row">
+    <h3>Enter Campaign Details:</h3>
+            {% crispy campaign_form campaign_form.helper %}
+    </div>
+
+    <p></p>
+
+
+
+{% endblock %}

@@ -31,6 +31,16 @@
                     <ul class="nav navbar-nav">
 
                         <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Campaigns<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'campaigns:list_campaigns' %}">List Campaigns</a></li>
+                                        <li><a href="{% url 'campaigns:add_campaign' %}">Add Campaign</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li role="presentation" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Characters<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                         <li><a href="{% url 'characters:list_characters' %}">List Characters</a></li>
@@ -91,9 +101,29 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Characters</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Campaigns</a>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <tr class="info">
+                                        <td><a href="{% url 'campaigns:list_campaigns' %}">All Campaigns</a></td>
+                                    </tr>
+                                    {% for this_campaign in recently_added_campaigns %}
+                                        <tr>
+                                            <td><a href="{% url 'campaigns:show_campaign' this_campaign.id %}">{{this_campaign.name}}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Characters</a>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <tr class="info">
@@ -112,9 +142,9 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Writeups</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Writeups</a>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse">
+                        <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <tr class="info">
@@ -133,9 +163,9 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Summaries</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Summaries</a>
                         </div>
-                        <div id="collapseThree" class="panel-collapse collapse">
+                        <div id="collapseFour" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <tr class="info">

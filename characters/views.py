@@ -96,8 +96,7 @@ def add_character(request, character_id=None):
         character_form.helper.form_action = '/editCharacter/' + character_id + '/'
 
     characters = Character.objects.all()
-    data = {'character_form': character_form, 'characters': characters,
-            'writeup_archive': get_writeup_archive(), 'summary_archive': get_summary_archive()}
+    data = {'character_form': character_form, 'characters': characters}
 
     return render_to_response('characters/addCharacter.html', data, context_instance=RequestContext(request))
 
