@@ -1,7 +1,7 @@
 from django.http import request
 from django.shortcuts import HttpResponseRedirect, RequestContext, render_to_response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth.decorators import login_required
 from campaigns.models import Campaign
 from campaigns.forms import CampaignForm
 
