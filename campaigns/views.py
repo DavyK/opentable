@@ -40,7 +40,7 @@ def show_campaign(request,campaign_id):
 
     return render_to_response('campaigns/show_campaign.html', data, context_instance=RequestContext(request))
 
-
+@login_required
 def add_campaign(request, campaign_id=None):
 
     if campaign_id is not None:
