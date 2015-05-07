@@ -9,9 +9,10 @@ from django import forms
 
 class CharacterForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
 
+        current_user = kwargs.pop('current_user', None)
 
-    def __init__(self, current_user=None, *args, **kwargs):
         super(CharacterForm, self).__init__(*args, **kwargs)
 
         self.initial['player'] = current_user

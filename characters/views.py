@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from characters.models import Character
 from characters.forms import CharacterForm, CharacterSearchForm
 from writeups.models import Writeup, SessionSummary
-from opentable.views import get_writeup_archive, get_summary_archive
 
 
 # Create your views here.
@@ -89,8 +88,6 @@ def add_character(request, character_id=None):
             character_form = CharacterForm(current_user=request.user, instance=this_character)
         else:
             character_form = CharacterForm(current_user=request.user)
-
-    print request.user
 
     if character_id is not None:
         character_form.helper.form_action = '/editCharacter/' + character_id + '/'
