@@ -1,0 +1,57 @@
+{% extends 'opentable/base.html' %}
+
+
+{% block content %}
+
+
+    <ul class="pagination">
+    {% if campaigns.has_previous %}
+    <li><a href="?page={{ campaigns.previous_page_number }}">Back</a></li>
+    {% else %}
+        <li class="disabled"><a href="#">Back</a></li>
+    {% endif %}
+
+
+
+        {% for p in pages %}
+
+        {% if p == campaigns.number %}
+            <li class="active"><a href="#">{{ campaigns.number }}</a></li>
+        {% else %}
+            <li><a href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+
+        {% endfor %}
+
+
+    {% if campaigns.has_next %}
+       <li><a href="?page={{ campaigns.next_page_number }}">Next</a></li>
+    {% else %}
+        <li class="disabled"><a href="#">Next</a></li>
+    {% endif %}
+    </ul>
+
+    <div class="writeups-list">
+        {% for campaign in campaigns %}
+            <div class="writeup-short">
+                <a href="{% url 'campaigns:show_campaign' campaign.id %}"><h4>{{campaign.name}}</h4></a>
+                <h6 class="writeup-meta">running since {{campaign.submission_date}}</h6>
+                <div class="writeup-short-body">
+                    {{campaign.description|truncatechars_html:200|safe}}
+                </div>
+            </div>
+
+        {% empty %}
+
+
+
+            <h3>Ooops!</h3>
+            <p>No write ups here yet.</p>
+
+    {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

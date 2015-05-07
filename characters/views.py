@@ -35,7 +35,7 @@ def list_characters(request):
 
     data = {'characters': characters, 'search_form': search_form}
 
-    return render_to_response('characters/characterIndex.html', data, context_instance=RequestContext(request))
+    return render_to_response('characters/index_character.html', data, context_instance=RequestContext(request))
 
 
 def show_character(request, character_id):
@@ -58,22 +58,20 @@ def show_character(request, character_id):
             'xp_to_next_level': xp_to_next_level,
             'character_writeups': character_writeups}
 
-    return render_to_response('characters/characterStats.html', data, context_instance=RequestContext(request))
+    return render_to_response('characters/show_character.html', data, context_instance=RequestContext(request))
 
 
 @login_required
 def add_character(request, character_id=None):
-
-    # TODO: currently view sets player as current user if current user is not superuser
 
     if character_id is not None:
         this_character = Character.objects.get(pk=character_id)
 
     if request.method == "POST":
         if character_id is not None:
-            character_form = CharacterForm(request.POST, request.FILES, instance=this_character)
+            character_form = CharacterForm(request.POST, request.FILES, current_user=request.user, instance=this_character)
         else:
-            character_form = CharacterForm(request.POST, request.FILES)
+            character_form = CharacterForm(request.POST, request.FILES, current_user=request.user)
 
         if character_form.is_valid():
             save_it = character_form.save(commit=False)
@@ -88,17 +86,19 @@ def add_character(request, character_id=None):
 
     else:
         if character_id is not None:
-            character_form = CharacterForm(instance=this_character)
+            character_form = CharacterForm(current_user=request.user, instance=this_character)
         else:
-            character_form = CharacterForm(None)
+            character_form = CharacterForm(current_user=request.user)
+
+    print request.user
 
     if character_id is not None:
         character_form.helper.form_action = '/editCharacter/' + character_id + '/'
 
-    characters = Character.objects.all()
-    data = {'character_form': character_form, 'characters': characters}
 
-    return render_to_response('characters/addCharacter.html', data, context_instance=RequestContext(request))
+    data = {'character_form': character_form}
+
+    return render_to_response('characters/add_character.html', data, context_instance=RequestContext(request))
 
 
 def delete_character(request, character_id):

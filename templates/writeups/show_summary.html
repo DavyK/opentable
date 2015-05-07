@@ -5,19 +5,21 @@
 
 
     <div class="panel panel-default writeup-box">
-        {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-                <div class="dropdown gear-menu">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'writeups:edit_summary' this_summary.id %}">Edit</a></li>
-                        <li><a href="{% url 'writeups:delete_summary' this_summary.id %}">Delete</a></li>
-                    </ul>
-                </div>
+<div class="gear-menu">
+            {% if user.is_authenticated %}
+                {% if user == this_summary.gm or user.is_superuser %}
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'writeups:edit_summary' this_summary.id %}" type="button" class="btn btn-default btn-sm" aria-label="edit" data-toggle="tooltip" data-original-title="Edit">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+
+                        <a href="{% url 'writeups:delete_summary' this_summary.id  %}" type="button" class="btn btn-default btn-sm" aria-label="delete" data-toggle="tooltip" data-original-title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
         <h3>Session {{this_summary.number}}</h3>
         <h6 class="writeup-meta">GMed by {{this_summary.gm}} on {{this_summary.session_date}}</h6>
         <h5>Location: {{this_summary.location}}</h5>

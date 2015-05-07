@@ -1,0 +1,32 @@
+{% extends 'opentable/base.html' %}
+
+
+{% block content %}
+
+
+    <div class="panel panel-default writeup-box">
+        <div class="gear-menu">
+            {% if user.is_authenticated and user.is_superuser%}
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'campaigns:edit_campaign' this_campaign.id %}" type="button" class="btn btn-default btn-sm" aria-label="edit" data-toggle="tooltip" data-original-title="Edit">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+
+                        <a href="{% url 'campaigns:delete_campaign' this_campaign.id  %}" type="button" class="btn btn-default btn-sm" aria-label="delete" data-toggle="tooltip" data-original-title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
+            {% endif %}
+        </div>
+
+        <h3>{{this_campaign.name}}</h3>
+        <h6 class="writeup-meta">running since {{this_campaign.submission_date}}</h6>
+
+        <div class="writeup-text">
+            {{this_campaign.description|safe}}
+        </div>
+    </div>
+
+
+
+{% endblock %}

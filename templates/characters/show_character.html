@@ -4,20 +4,25 @@
 
 
 <div class="panel panel-default writeup-box">
-    {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-            <div class="dropdown gear-menu">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                    <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="{% url 'characters:edit_character' this_character.id %}">Edit</a></li>
-                    <li><a href="{% url 'characters:delete_character' this_character.id %}">Delete</a></li>
-                </ul>
-            </div>
-        {% endif %}
-    {% endif %}
+
+    <div class="gear-menu">
+            {% if user.is_authenticated %}
+                {% if user == this_character.player or user.is_superuser %}
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'characters:edit_character' this_character.id %}" type="button" class="btn btn-default btn-sm" aria-label="edit" data-toggle="tooltip" data-original-title="Edit">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+
+                        <a href="{% url 'characters:delete_character' this_character.id  %}" type="button" class="btn btn-default btn-sm" aria-label="delete" data-toggle="tooltip" data-original-title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+
     <h4>{{this_character.name}}</h4>
+    <!-- TODO: change these buttons to glyph buttons -->
     <a class="btn btn-primary" href="{% url 'writeups:character_list_writeups' this_character.id %}">Write Ups</a>
     <a class="btn btn-primary" href="{% url 'writeups:character_list_summaries' this_character.id %}">Sessions</a>
     <div class="row writeup-box">
@@ -36,7 +41,7 @@
             <h5>Games Played: {{sessions_in}}/{{sessions_all}}</h5>
             <h5>Write Ups: {{character_writeups}}</h5>
             <h5>Current XP: {{this_character.current_xp}}</h5>
-            <h5>XP to Next level: {{xp_to_next_level}} </h5><!-- TODO: javascript to work this out I think -->
+            <h5>XP to Next level: {{xp_to_next_level}} </h5>
             <div class="row">
             <form class="form-inline" method="POST" action="{% url 'characters:add_xp' this_character.id%}">
                 {% csrf_token %}

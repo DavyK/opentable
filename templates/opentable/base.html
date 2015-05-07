@@ -10,8 +10,16 @@
     <link href="{{STATIC_URL}}/css/bootstrap.darkly.css" rel="stylesheet" type="text/css">
     <link href="{{STATIC_URL}}/css/davy-custom.css" rel="stylesheet" type="text/css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip({
+                placement : 'top'
+            });
+        });
+    </script>
 
     {% block custom_header_scripts %}
 
@@ -226,7 +234,7 @@
                 <tr>
                     <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
 
-                    <td>Characters </td><td><span class="badge">{{character_count}}</span></td>
+                    <td>Characters</td><td><span class="badge">{{character_count}}</span></td>
                 </tr>
                 <tr>
                     <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
@@ -236,7 +244,7 @@
                 <tr>
                     <td>Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
 
-                    <td>Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
+                    <td>Dead Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
                 </tr>
                 <tr><td colspan="4"><h5>Races:</h5></td></tr>
                 <tr>

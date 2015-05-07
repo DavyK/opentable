@@ -5,19 +5,23 @@
 
 
     <div class="panel panel-default writeup-box">
-        {% if user.is_authenticated %}
-            {% if user == this_writeup.author or user.is_superuser %}
-                <div class="dropdown gear-menu">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'writeups:edit_writeup' this_writeup.id %}">Edit</a></li>
-                        <li><a href="{% url 'writeups:delete_writeup' this_writeup.id %}">Delete</a></li>
-                    </ul>
-                </div>
+        <!-- if user == this_writeup.author or user.is_superuser-->
+        <div class="gear-menu">
+            {% if user.is_authenticated %}
+                {% if user == this_writeup.author or user.is_superuser %}
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'writeups:edit_writeup' this_writeup.id %}" type="button" class="btn btn-default btn-sm" aria-label="edit" data-toggle="tooltip" data-original-title="Edit">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+
+                        <a href="{% url 'writeups:delete_writeup' this_writeup.id  %}" type="button" class="btn btn-default btn-sm" aria-label="delete" data-toggle="tooltip" data-original-title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
+
+        </div>
         <h4>{{this_writeup.author_character}}</h4>
         <h6>by {{this_writeup.author}} on {{this_writeup.submission_date}}</h6>
         <div class="writeup-text">

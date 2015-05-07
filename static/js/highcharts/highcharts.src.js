@@ -1933,7 +1933,7 @@ SVGElement.prototype = {
 	 * and apply strokes to the copy.
 	 *
 	 * docs: update default, document the polyfill and the limitations on hex colors and pixel values, document contrast pseudo-color
-	 * TODO: 
+	 *
 	 * - update defaults
 	 */
 	applyTextShadow: function (textShadow) {
@@ -7591,7 +7591,7 @@ Axis.prototype = {
 			i,
 			len;
 
-		if (currentTickAmount < tickAmount) { // TODO: Check #3411
+		if (currentTickAmount < tickAmount) { // TO DO: Check #3411
 			while (tickPositions.length < tickAmount) {
 				tickPositions.push(correctFloat(
 					tickPositions[tickPositions.length - 1] + tickInterval
@@ -8012,7 +8012,7 @@ Axis.prototype = {
 			}
 		});
 
-		// TODO: Why not part of getLabelPosition?
+		// TO DO: Why not part of getLabelPosition?
 		this.tickRotCorr = renderer.rotCorr(labelMetrics.b, this.labelRotation || 0, this.side === 2);
 	},
 
@@ -10163,7 +10163,7 @@ extend(Highcharts.Pointer.prototype, {
 		}
 
 		// Set geometry for clipping, selection and transformation
-		if (!inverted) { // TODO: implement clipping for inverted charts
+		if (!inverted) { // TO DO: implement clipping for inverted charts
 			clip[xy] = clipXY - plotLeftTop;
 			clip[wh] = selectionWH;
 		}
@@ -11165,7 +11165,7 @@ var LegendSymbolMixin = Highcharts.LegendSymbolMixin = {
 
 // Workaround for #2030, horizontal legend items not displaying in IE11 Preview,
 // and for #2580, a similar drawing flaw in Firefox 26.
-// TODO: Explore if there's a general cause for this. The problem may be related 
+// TO DO: Explore if there's a general cause for this. The problem may be related
 // to nested group elements, as the legend item texts are within 4 group elements.
 if (/Trident\/7\.0/.test(userAgent) || isFirefox) {
 	wrap(Legend.prototype, 'positionItem', function (proceed, item) {
@@ -11347,7 +11347,7 @@ Chart.prototype = {
 			hasStackedSeries,
 			hasDirtyStacks,
 			hasCartesianSeries = chart.hasCartesianSeries,
-			isDirtyBox = chart.isDirtyBox, // todo: check if it has actually changed?
+			isDirtyBox = chart.isDirtyBox, // to do: check if it has actually changed?
 			seriesLength = series.length,
 			i = seriesLength,
 			serie,
@@ -15331,7 +15331,7 @@ extend(Series.prototype, {
 		}
 
 		// Shift the first point off the parallel arrays
-		// todo: consider series.removePoint(i) method
+		// to do: consider series.removePoint(i) method
 		if (shift) {
 			if (data[0] && data[0].remove) {
 				data[0].remove(false);
@@ -15686,7 +15686,7 @@ var AreaSeries = extendClass(Series, {
 		}
 		if (options.stacking && !this.closedStacks) {
 			
-			// Follow stack back. Todo: implement areaspline. A general solution could be to 
+			// Follow stack back. To do: implement areaspline. A general solution could be to
 			// reverse the entire graphPath of the previous series, though may be hard with
 			// splines and with series with different extremes
 			for (i = segment.length - 1; i >= 0; i--) {
