@@ -42,6 +42,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <a type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" href="{% url 'login' %}">
+                        login/register
+                    </a>
 
                     <a class="navbar-brand" href="{% url 'home' %}">Ptolus Open Table</a>
 
@@ -90,8 +93,14 @@
                     </ul>
 
                     {% if user.is_authenticated %}
-                        <p class="navbar-form navbar-right navbar-collapse collapse"><span class="h6">Welcome {{ user.username|capfirst }} </span><a class="btn btn-primary" href='{% url "logout" %}'>Logout</a></p>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a class="active" href="#">Welcome {{ user.username|capfirst }} </a></li>
+                            <li><a href='{% url "logout" %}'>Logout</a></li>
+                        </ul>
                     {% else %}
+
+                    <!--<form class="nav navbar-nav navbar-form navbar-right" id="login_form" method="POST" action='{% url "login" %}?next={{request.path}}'>-->
+
 
                     <form class="navbar-form navbar-right navbar-collapse collapse" id="login_form" method="POST" action='{% url "login" %}?next={{request.path}}'>
                             {% csrf_token %}
@@ -105,7 +114,6 @@
                             <button type="submit" class="btn btn-primary">Login</button>
                             <a href='{% url "register_new_user" %}' class="btn btn-primary">Register</a>
                         </form>
-
                     {% endif %}
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
