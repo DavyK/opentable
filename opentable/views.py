@@ -1,12 +1,13 @@
 __author__ = 'David Kavanagh'
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import RequestContext, render_to_response
 from django.core.mail import mail_admins
 
 from writeups.models import Writeup, SessionSummary
-from opentable.forms import LoginForm, CustomUserCreationForm
+from opentable.forms import LoginForm, CustomUserCreationForm, ChangePasswordForm
 
 
 def home(request):
@@ -64,6 +65,7 @@ def register_new_user(request):
             new_user.is_active = False
             new_user.save()
 
+
             email_subject = u'Ptolus Open Table - New User'
 
             email_msg = u"""
@@ -78,6 +80,28 @@ def register_new_user(request):
     data = {'new_user_form': new_user_form}
 
     return render_to_response('opentable/register.html', data, context_instance=RequestContext(request))
+
+
+def change_password(request, user_id):
+
+    this_user = User.objects.get(pk=user_id)
+    if request.method == 'POST':
+        change_password_form = ChangePasswordForm(request.POST)
+
+        if change_password_form.is_valid(this_user):
+            this_user.set_password(change_password_form.cleaned_data['new_password1'])
+            this_user.save()
+            redirect_url = '/players/showPlayer/{0}/'.format(this_user.id)
+
+            return HttpResponseRedirect(redirect_url)
+    else:
+        change_password_form = ChangePasswordForm()
+
+    print change_password_form.fields
+
+    data = {'change_password_form': change_password_form}
+
+    return render_to_response('opentable/change_password.html', data, context_instance=RequestContext(request))
 
 
 def get_writeup_archive():

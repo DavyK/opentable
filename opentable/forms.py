@@ -58,7 +58,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
@@ -66,5 +66,49 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ChangePasswordForm(forms.Form):
+
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'password',
+        }), label='Old Password')
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'password',
+        }), label='New Password')
+
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'password',
+        }), label='Confirm New Password')
+
+    class Meta:
+        fields = ['old_password', 'new_password1', 'new_password2']
+
+    def is_valid(self, user):
+
+        valid = super(ChangePasswordForm, self).is_valid()
+
+        # we're done now if not valid
+        if not valid:
+            return valid
+
+        if not check_password(self.cleaned_data['old_password'], user.password):
+            self.add_error('old_password', 'incorrect password')
+            return False
+
+        if not self.cleaned_data['new_password1'] == self.cleaned_data['new_password2']:
+            self.add_error('new_password2', 'passwords do not match')
+            return False
+        # all good
+        return True
+
+
+
+
+
 
 

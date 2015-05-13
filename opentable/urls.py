@@ -9,11 +9,14 @@ urlpatterns = patterns('',
     url(r'^', include('characters.urls', namespace='characters')),
     url(r'^writeups/', include('writeups.urls', namespace='writeups')),
     url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
+    url(r'^players/', include('players.urls', namespace='players')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', 'opentable.views.user_login', name='login'),
     url(r'^logout/', 'opentable.views.user_logout', name='logout'),
     url(r'^register/', 'opentable.views.register_new_user', name='register_new_user'),
+    url(r'^changePassword/(?P<user_id>\d+)/$', 'opentable.views.change_password', name='change_password'),
     url(r'^tinymce/', include('tinymce.urls')),
+
 )
 
 

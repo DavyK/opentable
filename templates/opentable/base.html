@@ -106,7 +106,7 @@
 
                     {% if user.is_authenticated %}
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a class="active" href="#">Welcome {{ user.username|capfirst }} </a></li>
+                            <li><a class="active" href="{% url 'players:show_player' user.id %}">Welcome {{ user.username|capfirst }} </a></li>
                             <li><a href='{% url "logout" %}'>Logout</a></li>
                         </ul>
                     {% else %}

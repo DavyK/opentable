@@ -1,0 +1,9 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+
+{% for u in users%}
+    {{u.username}}
+{% endfor %}
+
+{% endblock %}

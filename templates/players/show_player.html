@@ -1,0 +1,11 @@
+{% extends 'opentable/base.html' %}
+
+{% block content %}
+
+
+{{this_user.username}}
+
+<a href="{% url 'change_password' this_user.id %}">Change Password</a>
+
+
+{% endblock %}
