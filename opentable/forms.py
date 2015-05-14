@@ -60,11 +60,24 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+    def is_valid(self):
+        valid = super(UserCreationForm, self).is_valid()
+
+        if not valid:
+            return False
+
+        email = self.cleaned_data['email']
+
+        if len(User.objects.filter(email=email)) > 0:
+            self.add_error('email', 'a user with that email already exists')
+            return False
+
+        return True
+
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
+        user.set_password(self.cleaned_data['password1'])
         return user
 
 

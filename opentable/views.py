@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import RequestContext, render_to_response
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.hashers import check_password
 from campaigns.models import Campaign
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary, Comment
@@ -81,7 +81,6 @@ def register_new_user(request):
         new_user_form = CustomUserCreationForm(request.POST)
 
         if new_user_form.is_valid():
-
             new_user = new_user_form.save(commit=False)
             new_user.is_active = False
             new_user.save()
