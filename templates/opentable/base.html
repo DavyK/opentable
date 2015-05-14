@@ -100,8 +100,9 @@
                             </ul>
                         </li>
 
-
+                    {% if user.is_authenticated and user.is_superuser %}
                         <li><a href="/admin/">Admin</a></li>
+                    {% endif %}
                     </ul>
 
                     {% if user.is_authenticated %}
@@ -134,6 +135,79 @@
 
 
         <div class="container-fluid">
+
+            <div class="nav navbar col-sm-2">
+                <table class="table table-hover">
+                    <tr><td><h6>Campaigns</h6></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                </a>
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                     <tr><td><h6>Players</h6></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                </a>
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><h6>Characters</h6></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                </a>
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><h6>Sessions</h6></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                </a>
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><h6>Write ups</h6></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                </a>
+                                <a href="#" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+
+            <div class="col-sm-8">
+                {% block content %}
+
+                {% endblock %}
+            </div>
 
             <div class="col-sm-2">
                 <h4>Recent Items:</h4>
@@ -247,65 +321,9 @@
                 -->
             </div>
 
-            <div class="col-sm-7">
-                {% block content %}
-
-                {% endblock %}
-            </div>
 
 
-            <div class="col-sm-3">
-                <h4>The Numbers</h4>
-                <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
-                <table class="table table-condensed stats-table">
-                <tr>
-                    <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
 
-                    <td>Write ups</td><td><span class="badge">{{ writeup_count}}</span></td>
-                </tr>
-                <tr>
-                    <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
-
-                    <td>Characters</td><td><span class="badge">{{character_count}}</span></td>
-                </tr>
-                <tr>
-                    <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
-
-                    <td>APL </td><td><span class="badge">{{party_level.level__avg|floatformat}}</span></td>
-                </tr>
-                <tr>
-                    <td>Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
-
-                    <td>Dead Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
-                </tr>
-                <tr><td colspan="4"><h5>Races:</h5></td></tr>
-                <tr>
-                    {% for r in races %}
-
-                        <td>{{r.race}}</td> <td><span class="badge">{{r.the_count}}</span></td>
-                        {% if forloop.counter|divisibleby:"2" %}
-                            </tr>
-                            <tr>
-                        {% endif %}
-                        {% if forloop.last %}
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-
-                <tr><td colspan="4"><h5>Classes:</h5></td></tr>
-                <tr>
-                    {% for c in classes %}
-                        <td>{{c.character_class}}</td> <td><span class="badge">{{c.the_count}}</span></td>
-                        {% if forloop.counter|divisibleby:"2" and not forloop.last %}
-                            </tr>
-                            <tr>
-                        {% endif %}
-                        {% if forloop.last %}
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </table>
-            </div>
         </div><!--/.container-fluid-->
 
         <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>

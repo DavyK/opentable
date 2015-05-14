@@ -5,7 +5,12 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import RequestContext, render_to_response
 from django.core.mail import mail_admins
+from django.contrib.auth.decorators import login_required
 
+from campaigns.models import Campaign
+from characters.models import Character
+from writeups.models import Writeup, SessionSummary, Comment
+from django.db.models import Count, Sum, Avg
 from writeups.models import Writeup, SessionSummary
 from opentable.forms import LoginForm, CustomUserCreationForm, ChangePasswordForm
 
@@ -14,6 +19,22 @@ def home(request):
 
     return render_to_response('opentable/home.html', {}, context_instance=RequestContext(request))
 
+
+def data(request):
+
+    data = {
+        'character_count': Character.objects.all().count(),
+        'writeup_count': Writeup.objects.all().count(),
+        'comment_count': Comment.objects.all().count(),
+        'summary_count': SessionSummary.objects.all().count(),
+        'character_deaths': Character.objects.aggregate(Sum('num_deaths')),
+        'deceased_characters': Character.objects.filter(deceased=True).count(),
+        'races': Character.objects.values('race').annotate(the_count=Count('race')),
+        'classes': Character.objects.values('character_class').annotate(the_count=Count('character_class')),
+        'party_level': Character.objects.values('level').aggregate(Sum('level'), Avg('level')),
+    }
+
+    return render_to_response('opentable/data.html', data, context_instance=RequestContext(request))
 
 def user_login(request):
 
@@ -81,7 +102,7 @@ def register_new_user(request):
 
     return render_to_response('opentable/register.html', data, context_instance=RequestContext(request))
 
-
+@login_required
 def change_password(request, user_id):
 
     this_user = User.objects.get(pk=user_id)
