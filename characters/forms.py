@@ -58,6 +58,7 @@ class CharacterForm(forms.ModelForm):
 class CharacterSearchForm(forms.Form):
 
     search = forms.CharField()
+    deceased = forms.BooleanField()
 
     def __init__(self, *args, **kwargs):
         super(CharacterSearchForm, self).__init__(*args, **kwargs)

@@ -31,10 +31,9 @@ def list_characters(request):
                                            Q(character_class__icontains=search_text) |
                                            Q(race__icontains=search_text))
 
-
     data = {'characters': characters, 'search_form': search_form}
 
-    return render_to_response('characters/index_character.html', data, context_instance=RequestContext(request))
+    return render_to_response('characters/list_character.html', data, context_instance=RequestContext(request))
 
 
 def show_character(request, character_id):

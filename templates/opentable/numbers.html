@@ -4,7 +4,7 @@
 
 
                 <h4>The Numbers</h4>
-                <p class="sidebar-text">Some summary statistics of all games played, and all characters played within.</p>
+                <p>Some summary statistics of all games played, and all characters played within.</p>
                 <table class="table table-condensed stats-table">
                 <tr>
                     <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
@@ -26,6 +26,7 @@
 
                     <td>Dead Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
                 </tr>
+
                 <tr><td colspan="4"><h5>Races:</h5></td></tr>
                 <tr>
                     {% for r in races %}
@@ -53,6 +54,52 @@
                         {% endif %}
                     {% endfor %}
                 </table>
+
+                <div id="pie-chart-classes"></div>
+
+<script>
+$(function () {
+    $('#pie-chart-classes').highcharts({
+               chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Characters by Race'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '# Characters by Race'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Population',
+            data: [
+            {% for r in races %}
+                {% if not forloop.last %}
+                    ['{{r.race}}',     {{r.the_count}}],
+                {% else %}
+                    ['{{r.race}}',     {{r.the_count}}],
+                {% endif %}
+            {% endfor %}
+
+            ]
+        }]
+    });
+});</script>
 
 
 {% endblock %}

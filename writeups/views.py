@@ -56,7 +56,7 @@ def list_writeups(request, query_set=None):
 
     data = {'writeups': writeups, 'pages': pages, 'writeups_and_comment_counts': writeups_and_comment_counts}
 
-    return render_to_response('writeups/index_writeups.html', data, context_instance=RequestContext(request))
+    return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
 
 
 def archive_list_writeups(request, w_month, w_year):
@@ -210,7 +210,7 @@ def list_summaries(request, query_set=None):
 
     data = {'summaries': summaries, 'pages': pages}
 
-    return render_to_response('writeups/index_summaries.html', data, context_instance=RequestContext(request))
+    return render_to_response('writeups/list_summaries.html', data, context_instance=RequestContext(request))
 
 
 def archive_list_summaries(request, s_month, s_year):

@@ -40,6 +40,10 @@ def numbers(request):
 
     return render_to_response('opentable/numbers.html', data, context_instance=RequestContext(request))
 
+def about(request):
+
+    return render_to_response('opentable/about.html', {}, context_instance=RequestContext(request))
+
 def user_login(request):
 
     login_form = LoginForm()

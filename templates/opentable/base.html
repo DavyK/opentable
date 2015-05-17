@@ -10,8 +10,9 @@
 
     <link href="{{STATIC_URL}}/css/bootstrap.darkly.css" rel="stylesheet" type="text/css">
     <link href="{{STATIC_URL}}/css/davy-custom.css" rel="stylesheet" type="text/css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}/js/highcharts/highcharts.js"></script>
+
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
 
     <script>
@@ -67,38 +68,26 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
 
+                        <li><a href="{% url 'numbers' %}">Data</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+
                         <li role="presentation" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Campaigns<span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">List<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{% url 'campaigns:list_campaigns' %}">List Campaigns</a></li>
-                                        <li><a href="{% url 'campaigns:add_campaign' %}">Add Campaign</a></li>
+                                <li><a href="{% url 'campaigns:list_campaigns' %}">Campaigns</a></li>
+                                <li><a href="{% url 'characters:list_characters' %}">Characters</a></li>
+                                <li><a href="{% url 'writeups:list_writeups' %}">Write Ups</a></li>
+                                <li><a href="{% url 'writeups:list_summaries' %}">Summaries</a></li>
+                                <li><a href="{% url 'players:list_players' %}">Players</a></li>
                             </ul>
                         </li>
-
-
-
                         <li role="presentation" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Characters<span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Add<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{% url 'characters:list_characters' %}">List Characters</a></li>
-                                        <li><a href="{% url 'characters:add_character' %}">Add Character</a></li>
-                            </ul>
-                        </li>
-
-                        <li role="presentation" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Write Ups<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{% url 'writeups:list_writeups' %}">List Write Ups</a></li>
-                                        <li><a href="{% url 'writeups:add_writeup' %}">Add Write Up</a></li>
-                            </ul>
-                        </li>
-
-
-                        <li role="presentation" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Session Summaries<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{% url 'writeups:list_summaries' %}">List Summaries</a></li>
-                                        <li><a href="{% url 'writeups:add_summary' %}">Add Summary</a></li>
+                                <li><a href="{% url 'campaigns:add_campaign' %}">Campaign</a></li>
+                                <li><a href="{% url 'characters:add_character' %}">Character</a></li>
+                                <li><a href="{% url 'writeups:add_writeup' %}">Write Up</a></li>
+                                <li><a href="{% url 'writeups:add_summary' %}">Summary</a></li>
                             </ul>
                         </li>
 

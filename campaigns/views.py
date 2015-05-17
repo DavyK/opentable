@@ -29,7 +29,7 @@ def list_campaigns(request):
 
     data = {'campaigns': campaigns}
 
-    return render_to_response('campaigns/index_campaign.html', data, context_instance=RequestContext(request))
+    return render_to_response('campaigns/list_campaign.html', data, context_instance=RequestContext(request))
 
 
 def show_campaign(request,campaign_id):

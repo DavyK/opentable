@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for u in users%}
-    {{u.username}}
+    <h5>{{u.username|capfirst}}</h5>
 {% endfor %}
 
 {% endblock %}
