@@ -2,4 +2,6 @@ db.sqlite3
 opentable/settings.py*
 opentable/production_settings.py*
 \.idea/
-\*/*.pyc
+*.pyc
+*/*.pyc
+/migrations/*.pyc
