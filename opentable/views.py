@@ -1,4 +1,6 @@
 __author__ = 'David Kavanagh'
+from itertools import chain
+from operator import attrgetter
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -6,7 +8,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import RequestContext, render_to_response
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import check_password
+
+
 from campaigns.models import Campaign
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary, Comment
@@ -14,13 +17,14 @@ from django.db.models import Count, Sum, Avg
 from writeups.models import Writeup, SessionSummary
 from opentable.forms import LoginForm, CustomUserCreationForm, ChangePasswordForm
 
-
 def home(request):
+
+
 
     return render_to_response('opentable/home.html', {}, context_instance=RequestContext(request))
 
 
-def data(request):
+def numbers(request):
 
     data = {
         'character_count': Character.objects.all().count(),
@@ -34,7 +38,7 @@ def data(request):
         'party_level': Character.objects.values('level').aggregate(Sum('level'), Avg('level')),
     }
 
-    return render_to_response('opentable/data.html', data, context_instance=RequestContext(request))
+    return render_to_response('opentable/numbers.html', data, context_instance=RequestContext(request))
 
 def user_login(request):
 

@@ -26,9 +26,9 @@ class Character(models.Model):
 
     character_token = models.ImageField(upload_to='tokens')
 
-    character_added = models.DateTimeField(auto_now_add=True, auto_now=False)
+    date_added = models.DateTimeField(auto_now_add=True, auto_now=False)
 
-    character_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
 

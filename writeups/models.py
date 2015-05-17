@@ -14,17 +14,18 @@ class Writeup(models.Model):
 
     author_character = models.ForeignKey(Character, default=1)
 
-    submission_date = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     post_content = models.TextField()
 
     class Meta:
-        ordering = ('-submission_date',)
+        ordering = ('-date_added',)
+        verbose_name = 'Write Up'
 
     def __unicode__(self):
-        return '{0} on {1}'.format(self.author, self.submission_date)
+        return ' by {0}'.format(self.author_character)
 
 
 class Comment(models.Model):
@@ -33,7 +34,7 @@ class Comment(models.Model):
 
     writeup = models.ForeignKey(Writeup, default=1)
 
-    submission_date = models.DateTimeField(auto_now_add=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True, blank=True)
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 
@@ -59,10 +60,14 @@ class SessionSummary(models.Model):
 
     important_npcs = models.CharField(max_length=500)
 
-    session_date = models.DateTimeField(default=timezone.now, verbose_name='Session Date (eg. YYYY-DD-MM 00:00:00)')
+    date_added = models.DateTimeField(default=timezone.now, verbose_name='Session Date (eg. YYYY-DD-MM 00:00:00)')
 
     class Meta:
-        ordering = ('-session_date',)
+        ordering = ('-date_added',)
+        verbose_name = 'Session Summary'
+
+    def __unicode__(self):
+        return 'Session {0}'.format(self.number)
 
 
 

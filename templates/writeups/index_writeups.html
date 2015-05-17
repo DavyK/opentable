@@ -33,7 +33,7 @@
         {% for writeup, count in writeups_and_comment_counts %}
             <div class="writeup-short">
                 <a href="{% url 'writeups:show_writeup' writeup.id %}"><h4>{{writeup.author_character}}</h4></a>
-                <h6 class="writeup-meta">by {{writeup.author}} on {{writeup.submission_date}}</h6>
+                <h6 class="writeup-meta">by {{writeup.author}} on {{writeup.date_added}}</h6>
 
                 <div class="writeup-short-body">
                     {{writeup.post_content|truncatechars_html:200|safe}}

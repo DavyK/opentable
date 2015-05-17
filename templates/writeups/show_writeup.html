@@ -23,7 +23,7 @@
 
         </div>
         <h4>{{this_writeup.author_character}}</h4>
-        <h6>by {{this_writeup.author}} on {{this_writeup.submission_date}}</h6>
+        <h6>by {{this_writeup.author|capfirst}} on {{this_writeup.date_added}}</h6>
         <div class="writeup-text">
             {{this_writeup.post_content|safe}}
         </div>
@@ -38,14 +38,15 @@
             <div class="comment-box">
                 {% if user.is_authenticated %}
                     {% if user == comment.author or user.is_superuser %}
-                        <div class="dropdown gear-menu">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                                <img class="icon" src="{{MEDIA_URL}}/images/gear.png">
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'writeups:edit_comment' this_writeup.id comment.id %}">Edit</a></li>
-                                <li><a href="{% url 'writeups:delete_comment' this_writeup.id comment.id %}">Delete</a></li>
-                            </ul>
+                        <div class="gear-menu">
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'writeups:edit_comment' this_writeup.id comment.id %}"type="button" class="btn btn-default btn-sm" aria-label="edit" data-toggle="tooltip" data-original-title="Edit">
+                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                </a>
+                                <a href="{% url 'writeups:delete_comment' this_writeup.id comment.id %}"type="button" class="btn btn-default btn-sm" aria-label="delete" data-toggle="tooltip" data-original-title="Delete">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
                 {% endif %}
@@ -53,7 +54,7 @@
                     {{comment.comment_content|safe}}
                 </div>
                 <div class="comment-meta">
-                    by {{comment.author}} on {{comment.submission_date}}
+                    by {{comment.author|capfirst}} on {{comment.date_added}}
                 </div>
             </div>
         {% endfor %}

@@ -61,7 +61,7 @@ class SummaryForm(forms.ModelForm):
             Div(
                 Div('important_npcs', css_class='col-md-4',),
                 Div('xp_awarded', css_class='col-md-4',),
-                Div('session_date', css_class='col-md-4'),
+                Div('date_added', css_class='col-md-4'),
                 css_class='row',
             ),
         )
@@ -74,7 +74,7 @@ class SummaryForm(forms.ModelForm):
         model = SessionSummary
         fields = ['gm', 'number', 'location', 'session_characters',
                   'xp_awarded', 'summary_content', 'important_npcs',
-                  'session_date'
+                  'date_added'
                   ]
 
         widgets = {

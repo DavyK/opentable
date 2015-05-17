@@ -79,7 +79,7 @@ def character_list_writeups(request, character_id):
 def show_writeup(request, writeup_id, comment_id=None):
 
     this_writeup = Writeup.objects.get(pk=writeup_id)
-    this_writeup_comments = Comment.objects.filter(writeup__id=writeup_id).order_by('submission_date')
+    this_writeup_comments = Comment.objects.filter(writeup__id=writeup_id).order_by('date_added')
     
     if comment_id is not None:
         this_comment = Comment.objects.get(pk=comment_id)

@@ -10,7 +10,10 @@ class Campaign(models.Model):
 
     description = models.TextField()
 
-    submission_date = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-submission_date',)
+        ordering = ('-date_added',)
+
+    def __unicode__(self):
+        return self.name

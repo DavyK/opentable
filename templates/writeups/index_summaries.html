@@ -30,7 +30,7 @@
         {% for summary in summaries %}
                 <div class="writeup-short">
                     <a href="{% url 'writeups:show_summary' summary.id %}"><h4>Session {{summary.number}}</h4></a>
-                    <h6 class="writeup-meta">by {{summary.gm}} on {{summary.session_date}}</h6>
+                    <h6 class="writeup-meta">by {{summary.gm}} on {{summary.date_added}}</h6>
                     <h5>{{summary.location}}</h5>
                     <ul class="list-inline">
                     {% for char in summary.session_characters.all %}
