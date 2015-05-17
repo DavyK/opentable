@@ -78,7 +78,7 @@ def add_character(request, character_id=None):
                 save_it.player = request.user
             save_it.save()
 
-            this_character = Character.objects.order_by('-character_updated')[0]
+            this_character = save_it
             redirect_to_url = '/showCharacter/{0}/'.format(this_character.id)
 
             return HttpResponseRedirect(redirect_to_url)

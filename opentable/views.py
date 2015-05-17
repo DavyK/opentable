@@ -129,10 +129,10 @@ def change_password(request, user_id):
 
 
 def get_writeup_archive():
-    archive_dates = Writeup.objects.datetimes('submission_date', 'month', order='DESC')
+    archive_dates = Writeup.objects.datetimes('date_added', 'month', order='DESC')
     return archive_dates
 
 
 def get_summary_archive():
-    archive_dates = SessionSummary.objects.datetimes('session_date', 'month', order='DESC')
+    archive_dates = SessionSummary.objects.datetimes('date_added', 'month', order='DESC')
     return archive_dates
