@@ -28,8 +28,9 @@ def add_sidebar_data(request):
             recent_comms,
             recent_summs,
             recent_camps
-        ), key=attrgetter('date_added')
+        ), key=attrgetter('date_added'), reverse=True
     )
+
     recent_items = []
     for i in recent:
 
