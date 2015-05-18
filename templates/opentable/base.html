@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load url from future %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -146,9 +147,11 @@
 
 
                                 {% if type == 'comment' %}
-                                    <li class="list-group-item"><a href="{% url url_string item.writeup.id %}">new {{type}} - {{item}}</a></li>
+                                    <li class="list-group-item"><a href="{% url url_string item.writeup.id %}">new {{type}} - {{item}}</a>
+                                        <spanclass="comment-meta">{{item.date_added|naturaltime}}</span></li>
                                 {% else %}
-                                    <li class="list-group-item"><a href="{% url url_string item.id %}">new {{type}} - {{item}}</a></li>
+                                    <li class="list-group-item"><a href="{% url url_string item.id %}">new {{type}} - {{item}}</a>
+                                        <span class="comment-meta">{{item.date_added|naturaltime}}</span></li>
                                 {% endif %}
                             </tr>
                             {% endfor %}
