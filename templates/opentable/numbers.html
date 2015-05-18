@@ -6,100 +6,113 @@
                 <h4>The Numbers</h4>
                 <p>Some summary statistics of all games played, and all characters played within.</p>
                 <table class="table table-condensed stats-table">
-                <tr>
-                    <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
+                    <tr>
+                        <td>Games Played</td><td><span class="badge">{{summary_count}}</span></td>
 
-                    <td>Write ups</td><td><span class="badge">{{ writeup_count}}</span></td>
-                </tr>
-                <tr>
-                    <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
+                        <td>Write ups</td><td><span class="badge">{{ writeup_count}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Comments</td><td><span class="badge">{{ comment_count}}</span></td>
 
-                    <td>Characters</td><td><span class="badge">{{character_count}}</span></td>
-                </tr>
-                <tr>
-                    <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
+                        <td>Characters</td><td><span class="badge">{{character_count}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>TPL </td><td><span class="badge">{{party_level.level__sum}}</span></td>
 
-                    <td>APL </td><td><span class="badge">{{party_level.level__avg|floatformat}}</span></td>
-                </tr>
-                <tr>
-                    <td>Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
+                        <td>APL </td><td><span class="badge">{{party_level.level__avg|floatformat}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Deaths</td><td><span class="badge">{{character_deaths.num_deaths__sum}}</span></td>
 
-                    <td>Dead Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
-                </tr>
-
-                <tr><td colspan="4"><h5>Races:</h5></td></tr>
-                <tr>
-                    {% for r in races %}
-
-                        <td>{{r.race}}</td> <td><span class="badge">{{r.the_count}}</span></td>
-                        {% if forloop.counter|divisibleby:"2" %}
-                            </tr>
-                            <tr>
-                        {% endif %}
-                        {% if forloop.last %}
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-
-                <tr><td colspan="4"><h5>Classes:</h5></td></tr>
-                <tr>
-                    {% for c in classes %}
-                        <td>{{c.character_class}}</td> <td><span class="badge">{{c.the_count}}</span></td>
-                        {% if forloop.counter|divisibleby:"2" and not forloop.last %}
-                            </tr>
-                            <tr>
-                        {% endif %}
-                        {% if forloop.last %}
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
+                        <td>Dead Characters</td><td><span class="badge">{{deceased_characters}}</span></td>
+                    </tr>
                 </table>
 
-                <div id="pie-chart-classes"></div>
+                <div class="col-xs-12 col-md-6" id="pie-chart-races"></div>
+                <div class="col-xs-12 col-md-6" id="pie-chart-classes"></div>
 
-<script>
-$(function () {
-    $('#pie-chart-classes').highcharts({
-               chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Characters by Race'
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: '# Characters by Race'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        series: [{
-            name: 'Population',
-            data: [
-            {% for r in races %}
-                {% if not forloop.last %}
-                    ['{{r.race}}',     {{r.the_count}}],
-                {% else %}
-                    ['{{r.race}}',     {{r.the_count}}],
-                {% endif %}
-            {% endfor %}
+                <script>
+                    $(function () {
+                        $('#pie-chart-races').highcharts({
+                                   chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Characters by Race'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                labels: {
+                                    rotation: -45,
+                                    style: {
+                                        fontSize: '13px',
+                                        fontFamily: 'Verdana, sans-serif'
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: '# Characters by Race'
+                                }
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            series: [{
+                                name: 'Count',
+                                data: [
+                                {% for r in races %}
+                                    {% if not forloop.last %}
+                                        ['{{r.race}}',     {{r.the_count}}],
+                                    {% else %}
+                                        ['{{r.race}}',     {{r.the_count}}],
+                                    {% endif %}
+                                {% endfor %}
 
-            ]
-        }]
-    });
-});</script>
+                                ]
+                            }]
+                        });
+                        $('#pie-chart-classes').highcharts({
+                                   chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Characters by Class'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                labels: {
+                                    rotation: -45,
+                                    style: {
+                                        fontSize: '13px',
+                                        fontFamily: 'Verdana, sans-serif'
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: '# Characters by Class'
+                                }
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            series: [{
+                                name: 'Count',
+                                data: [
+                                {% for c in classes %}
+                                    {% if not forloop.last %}
+                                        ['{{c.character_class}}',     {{c.the_count}}],
+                                    {% else %}
+                                        ['{{c.character_class}}',     {{c.the_count}}],
+                                    {% endif %}
+                                {% endfor %}
 
-
+                                ]
+                            }]
+                        });
+                    });
+                </script>
 {% endblock %}
