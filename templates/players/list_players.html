@@ -2,8 +2,23 @@
 
 {% block content %}
 
-{% for u in users%}
-    <h5>{{u.username|capfirst}}</h5>
-{% endfor %}
+<div class="container-fluid">
+     {% for u, c , w, s  in user_data%}
+        <div class="col-xs-6 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6>{{u.username|capfirst}}</h6>
+                </div>
+                <div class="panel-body">
+                    <ul  class="list-group">
+                        <li class="list-group-item"><a href="#">{{c.character__count}} Characters</a></li>
+                        <li class="list-group-item"><a href="#">{{w.writeup__count}} Write Ups</a></li>
+                        <li class="list-group-item"><a href="#">{{s}} Games</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
+</div>
 {% endblock %}
