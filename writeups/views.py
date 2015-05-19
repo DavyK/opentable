@@ -42,9 +42,7 @@ def list_writeups(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    search_form = WriteupSearchForm()
-
-    data = {'writeups': writeups, 'pages': pages, 'search_form': search_form}
+    data = {'writeups': writeups, 'pages': pages}
 
     return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
 
