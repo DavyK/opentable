@@ -6,10 +6,10 @@ from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+
 
 from writeups.models import Writeup, Comment, SessionSummary
-from writeups.forms import WriteupForm, CommentForm, SummaryForm, WriteupSearchForm
+from writeups.forms import WriteupForm, CommentForm, SummaryForm
 from characters.models import Character
 
 

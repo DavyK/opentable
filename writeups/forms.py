@@ -81,33 +81,4 @@ class SummaryForm(forms.ModelForm):
             'session_characters': forms.CheckboxSelectMultiple
         }
 
-class WriteupSearchForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(WriteupSearchForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class = 'bootstrap3'
-        self.helper.form_id = 'writeup-search-form'
-        self.helper.form_method = 'POST'
-        self.helper.form_action = '/writeups/search/'
-
-        self.helper.layout = Layout(
-            Div(
-                Div('author', css_class='col-xs-12 col-md-4',),
-                Div('author_character', css_class='col-xs-12 col-md-4',),
-                Div('post_content', css_class='col-xs-12 col-md-4',),
-                css_class='row',
-            ),
-        )
-
-        self.helper.add_input(Submit('submit', 'Submit'))
-
-    class Meta:
-        model = Writeup
-        fields = ['author', 'author_character', 'post_content']
-
-        widgets = {
-            'post_content': forms.TextInput
-        }
-
 
