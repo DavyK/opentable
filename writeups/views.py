@@ -112,9 +112,9 @@ def add_writeup(request, writeup_id=None):
 
     if request.method == "POST":
         if writeup_id is not None:
-            writeup_form = WriteupForm(request.POST,  instance=this_writeup)
+            writeup_form = WriteupForm(request.POST,  instance=this_writeup, current_user=request.user)
         else:
-            writeup_form = WriteupForm(request.POST)
+            writeup_form = WriteupForm(request.POST, current_user=request.user)
 
         if writeup_form.is_valid():
             save_it = writeup_form.save(commit=False)
@@ -127,9 +127,9 @@ def add_writeup(request, writeup_id=None):
 
     else:
         if writeup_id is not None:
-            writeup_form = WriteupForm(instance=this_writeup)
+            writeup_form = WriteupForm(instance=this_writeup, current_user=request.user)
         else:
-            writeup_form = WriteupForm(None)
+            writeup_form = WriteupForm(current_user=request.user)
 
     if writeup_id is not None:
         writeup_form.helper.form_action = '/writeups/editWriteup/' + writeup_id + '/'

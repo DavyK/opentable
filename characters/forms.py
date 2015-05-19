@@ -12,8 +12,11 @@ class CharacterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
 
         current_user = kwargs.pop('current_user', None)
-
         super(CharacterForm, self).__init__(*args, **kwargs)
+
+        if not current_user.is_superuser:
+            current_users = [current_user]
+            self.fields['player'].choices = [(u.id, str(u)) for u in current_users]
 
         self.initial['player'] = current_user
 
