@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^characterWriteupList/(?P<character_id>\d+)/$',
         views.character_list_writeups, name='character_list_writeups'),
 
+    url(r'^listPlayerWriteups/(?P<user_id>\d+)/$',
+        views.get_writeups_by_player, name='get_writeups_by_player'),
+
     url(r'^showWriteup/(?P<writeup_id>\d+)/$', views.show_writeup, name='show_writeup'),
 
     url(r'^addWriteup/$', views.add_writeup, name='add_writeup'),
@@ -31,6 +34,9 @@ urlpatterns = patterns('',
 
     url(r'^characterSummaryList/(?P<character_id>\d+)/$',
         views.character_list_summaries, name='character_list_summaries'),
+
+    url(r'^listPlayerSummaries/(?P<user_id>\d+)/$',
+        views.get_summaries_by_player, name='get_summaries_by_player'),
 
     url(r'^showSummary/(?P<summary_id>\d+)/$', views.show_summary, name='show_summary'),
 

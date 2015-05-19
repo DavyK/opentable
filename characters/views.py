@@ -18,11 +18,14 @@ levels = {
 }
 
 
-def list_characters(request):
+def list_characters(request, queryset=None):
 
     search_form = CharacterSearchForm(None)
 
-    characters = Character.objects.all()
+    if queryset is not None:
+        characters = queryset
+    else:
+        characters = Character.objects.all()
 
     if request.method == 'POST':
         search_text = request.POST['search']
@@ -120,3 +123,10 @@ def add_xp(request, character_id):
 
     redirect_url = '/showCharacter/'+character_id+'/'
     return HttpResponseRedirect(redirect_url)
+
+
+def get_characters_by_player(request, user_id):
+
+    queryset = Character.objects.filter(player__pk=user_id)
+    return list_characters(request, queryset)
+

@@ -14,7 +14,7 @@ class Writeup(models.Model):
 
     author_character = models.ForeignKey(Character, default=1)
 
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_added = models.DateTimeField(default=timezone.now)
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
 

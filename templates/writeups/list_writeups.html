@@ -2,6 +2,9 @@
 
 {% block content %}
 
+{% load crispy_forms_tags %}
+
+<div class="col-xs-12">
     <ul class="pagination">
     {% if writeups.has_previous %}
     <li><a href="?page={{ writeups.previous_page_number }}">Back</a></li>
@@ -29,15 +32,17 @@
     {% endif %}
     </ul>
 
-    <div class="writeups-list">
-        {% for writeup, count in writeups_and_comment_counts %}
-            <div class="writeup-short">
-                <a href="{% url 'writeups:show_writeup' writeup.id %}"><h4>{{writeup.author_character}}</h4></a>
-                <h6 class="writeup-meta">by {{writeup.author}} on {{writeup.date_added}}</h6>
+</div>
 
-                <div class="writeup-short-body">
+    <div class="col-xs-11 col-xs-offset-1">
+        {% for writeup in writeups %}
+            <div class="panel panel-default">
+                <div class="panel-heading"><a href="{% url 'writeups:show_writeup' writeup.id %}"><h5>{{writeup.author_character}}</h5></a>
+                <span class="writeup-meta">by {{writeup.author}} on {{writeup.date_added}}</span>
+                </div>
+
+                <div class="panel-body">
                     {{writeup.post_content|truncatechars_html:200|safe}}
-                    <span class="writeup-meta">Comments <span class="badge">{{count}}</span></span>
                 </div>
             </div>
 

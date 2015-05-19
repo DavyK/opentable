@@ -6,10 +6,11 @@ from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Q
 
 from writeups.models import Writeup, Comment, SessionSummary
-from writeups.forms import WriteupForm, CommentForm, SummaryForm
+from writeups.forms import WriteupForm, CommentForm, SummaryForm, WriteupSearchForm
+from characters.models import Character
 
 
 ########################################################################################################################
@@ -20,6 +21,7 @@ def list_writeups(request, query_set=None):
     """
     View the most 5 recently submitted posts along with number of comments in paginated .
     """
+
     page = request.GET.get('page')
 
     if query_set is None:
@@ -40,24 +42,11 @@ def list_writeups(request, query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    tmp = Comment.objects.values('writeup').annotate(the_count=Count('writeup'))
-    counts = {}
-    for c in tmp:
-        counts[c['writeup']] = c['the_count']
+    search_form = WriteupSearchForm()
 
-    comment_counts = []
-    for w in writeups.object_list:
-        try:
-            comment_counts.append(counts[w.id])
-        except KeyError:
-            comment_counts.append(0)
-
-    writeups_and_comment_counts = zip(writeups, comment_counts)
-
-    data = {'writeups': writeups, 'pages': pages, 'writeups_and_comment_counts': writeups_and_comment_counts}
+    data = {'writeups': writeups, 'pages': pages, 'search_form': search_form}
 
     return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
-
 
 def archive_list_writeups(request, w_month, w_year):
 
@@ -158,6 +147,11 @@ def delete_writeup(request, writeup_id):
     this_writeup.delete()
 
     return HttpResponseRedirect('/writeups/listWriteups/')
+
+def get_writeups_by_player(request, user_id):
+
+    writeups = Writeup.objects.filter(author__pk=user_id)
+    return list_writeups(request, writeups)
 
 
 ########################################################################################################################
@@ -274,6 +268,15 @@ def delete_summary(request, summary_id):
     this_summary.delete()
     redirect_url = '/writeups/listSummaries/'
     return HttpResponseRedirect(redirect_url)
+
+
+def get_summaries_by_player(request, user_id):
+
+    player_characters = Character.objects.filter(player__pk=user_id)
+
+    summaries = SessionSummary.objects.filter(session_characters=player_characters)
+
+    return list_summaries(request, summaries)
 
 
 

@@ -128,17 +128,13 @@
 
         <div class="container-fluid">
 
-            <div class="hidden-xs hidden-sm col-md-1">
-
-            </div>
-
-            <div class="col-xs-9 col-md-8">
+            <div class="col-xs-8">
                 {% block content %}
 
                 {% endblock %}
             </div>
 
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <div class="panel panel-default">
                 <div class="panel-heading">Recent Items:</div>
                     <div class="panel-body">
@@ -148,7 +144,7 @@
 
                                 {% if type == 'comment' %}
                                     <li class="list-group-item"><a href="{% url url_string item.writeup.id %}">new {{type}} - {{item}}</a>
-                                        <spanclass="comment-meta">{{item.date_added|naturaltime}}</span></li>
+                                        <span class="comment-meta">{{item.date_added|naturaltime}}</span></li>
                                 {% else %}
                                     <li class="list-group-item"><a href="{% url url_string item.id %}">new {{type}} - {{item}}</a>
                                         <span class="comment-meta">{{item.date_added|naturaltime}}</span></li>
