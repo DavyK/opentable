@@ -5,7 +5,8 @@ import datetime
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 
 
 from writeups.models import Writeup, Comment, SessionSummary
@@ -155,7 +156,7 @@ def get_writeups_by_player(request, user_id):
 ########################################################################################################################
 # Comment Views
 ########################################################################################################################
-
+@login_required
 def add_comment(request, writeup_id, comment_id=None):
     """ The logic of adding the comment to the DB is handled in show writeup
     """
@@ -175,6 +176,16 @@ def delete_comment(request, writeup_id, comment_id):
 ########################################################################################################################
 # SessionSummary Views
 ########################################################################################################################
+
+def is_gm(user):
+    """
+    callback function for checking is user is gm and therefore allowed to add SessionSummary
+    """
+    if u'gms' in [g.name for g in User.objects.get(pk=user.id).groups.all()]:
+        return True
+    else:
+        return False
+
 
 def list_summaries(request, query_set=None):
     """
@@ -229,6 +240,7 @@ def show_summary(request, summary_id):
 
 
 @login_required
+@user_passes_test(is_gm, login_url='/writeups/listSummaries/')
 def add_summary(request, summary_id=None):
         
     if summary_id is not None:
@@ -275,6 +287,9 @@ def get_summaries_by_player(request, user_id):
     summaries = SessionSummary.objects.filter(session_characters=player_characters)
 
     return list_summaries(request, summaries)
+
+
+
 
 
 
