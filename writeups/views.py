@@ -113,7 +113,7 @@ def add_writeup(request, writeup_id=None):
 
     if request.method == "POST":
         if writeup_id is not None:
-            writeup_form = WriteupForm(request.POST,  instance=this_writeup, current_user=request.user)
+            writeup_form = WriteupForm(request.POST,  instance=this_writeup) #Passing current user would override data in form.
         else:
             writeup_form = WriteupForm(request.POST, current_user=request.user)
 
@@ -128,7 +128,7 @@ def add_writeup(request, writeup_id=None):
 
     else:
         if writeup_id is not None:
-            writeup_form = WriteupForm(instance=this_writeup, current_user=request.user)
+            writeup_form = WriteupForm(instance=this_writeup)
         else:
             writeup_form = WriteupForm(current_user=request.user)
 
