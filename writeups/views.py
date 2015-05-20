@@ -80,7 +80,7 @@ def show_writeup(request, writeup_id, comment_id=None):
         if comment_form.is_valid():
                 save_it = comment_form.save(commit=False)
                 save_it.author = request.user
-                save_it.writeup = this_writeup
+                save_it.writeup = this_writeup #why did I do this?
                 save_it.save()
 
                 redirect_to_url = '/writeups/showWriteup/' + writeup_id + '/'

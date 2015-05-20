@@ -3,6 +3,7 @@
 {% load url from future %}
 {% load crispy_forms_tags %}
 {% load humanize %}
+{% load opentable_extras %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -88,7 +89,9 @@
                                 <li><a href="{% url 'campaigns:add_campaign' %}">Campaign</a></li>
                                 <li><a href="{% url 'characters:add_character' %}">Character</a></li>
                                 <li><a href="{% url 'writeups:add_writeup' %}">Write Up</a></li>
-                                <li><a href="{% url 'writeups:add_summary' %}">Summary</a></li>
+                                {% if request.user|has_group:"gms" %}
+                                    <li><a href="{% url 'writeups:add_summary' %}">Summary</a></li>
+                                {% endif %}
                             </ul>
                         </li>
 
