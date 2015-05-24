@@ -136,7 +136,7 @@
                                 name: 'Count',
                                 data: [
                                 {% for w in writeups_per_player %}
-                                        ['{{w.username}}',     {{w.writeup__count}}],
+                                        ['{{w.username|capfirst}}',     {{w.writeup__count}}],
                                 {% endfor %}
                                 ]
                            }]
