@@ -6,11 +6,11 @@ from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.db.models import Q
 
 from opentable.views import is_gm
 from writeups.models import Writeup, Comment, SessionSummary
-from writeups.forms import WriteupForm, CommentForm, SummaryForm
+from writeups.forms import WriteupForm, CommentForm, SummaryForm, WriteupSearchForm
 from characters.models import Character
 
 
@@ -28,13 +28,37 @@ def list_writeups(request, sort_order='newest', query_set=None):
     else:
         sort_order = 'date_added'
 
-
     page = request.GET.get('page')
 
     if query_set is None:
         writeup_queryset = Writeup.objects.all().order_by(sort_order)
     else:
         writeup_queryset = query_set
+
+    if request.method == 'POST':
+        # search_campaign = request.POST['campaign']
+        search_player = request.POST['player']
+        search_character = request.POST['character']
+        search_text = request.POST['search']
+
+        '''
+        if search_campaign:
+            writeup_queryset = writeup_queryset.filter()
+        '''
+
+        if search_player:
+            writeup_queryset = writeup_queryset.filter(author__pk=search_player)
+
+        if search_character:
+            writeup_queryset = writeup_queryset.filter(author_character__pk=search_character)
+
+        if search_text:
+            writeup_queryset = writeup_queryset.filter(Q(post_content__icontains=search_text))
+
+        search_form = WriteupSearchForm(request.POST)
+
+    else:
+        search_form = WriteupSearchForm()
 
     paginator = Paginator(writeup_queryset, 10)
 
@@ -49,7 +73,10 @@ def list_writeups(request, sort_order='newest', query_set=None):
         # If page is out of range (e.g. 9999), deliver last page of results.
         writeups = paginator.page(paginator.num_pages)
 
-    data = {'writeups': writeups, 'pages': pages}
+    if not is_gm(request.user):
+        search_form.fields['character'].choices = [(c.i, str(c)) for c in Character.objects.filter(hidden=False)]
+
+    data = {'writeups': writeups, 'pages': pages, 'search_form': search_form}
 
     return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
 

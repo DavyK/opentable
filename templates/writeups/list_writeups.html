@@ -4,10 +4,21 @@
 
 {% load crispy_forms_tags %}
 
+{% load writeup_extras %}
+
+
+<div class="row">
+    <div class="col-sm-9 search-bar">
+            {% crispy search_form search_form.helper %}
+    </div>
+
+</div>
+
+
 <div class="col-xs-3">
     <div class="btn-group" role="'group">
-        <a href="{% url 'writeups:list_writeups' 'newest' %}" type="button" class="btn btn-default btn-sm">Sort Newest</a>
-        <a href="{% url 'writeups:list_writeups' 'oldest' %}" type="button" class="btn btn-default btn-sm">Sort Oldest</a>
+        <a href="#" type="button" id="sort-newest" class="btn btn-default btn-sm">Sort Newest</a>
+        <a href="#" type="button" id="sort-oldest" class="btn btn-default btn-sm">Sort Oldest</a>
     </div>
 </div>
 
@@ -48,7 +59,7 @@
                 </div>
 
                 <div class="panel-body">
-                    {{writeup.post_content|truncatechars_html:200|safe}}
+                    {{writeup.post_content|replace_linebr|truncatewords_html:80|safe}}
                 </div>
             </div>
 

@@ -1,8 +1,6 @@
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
-from django import forms
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
@@ -36,7 +34,6 @@ def list_characters(request, queryset=None):
         search_type = request.POST['type']
 
         if search_player:
-            print search_player
             characters = characters.filter(player__pk=search_player)
 
         if search_campaign:

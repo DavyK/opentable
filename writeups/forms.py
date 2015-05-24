@@ -1,11 +1,14 @@
 __author__ = 'davidkavanagh'
 
-from writeups.models import Writeup, Comment, SessionSummary
-from characters.models import Character
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit
-from crispy_forms.bootstrap import InlineCheckboxes
+from crispy_forms.bootstrap import InlineField, InlineCheckboxes
 from django import forms
+from django.contrib.auth.models import User
+
+from writeups.models import Writeup, Comment, SessionSummary
+from characters.models import Character
+from campaigns.models import Campaign
 
 
 class WriteupForm(forms.ModelForm):
@@ -84,5 +87,37 @@ class SummaryForm(forms.ModelForm):
         widgets = {
             'session_characters': forms.CheckboxSelectMultiple
         }
+
+
+class WriteupSearchForm(forms.Form):
+
+    campaigns = Campaign.objects.all()
+    campaign = forms.ModelChoiceField(required=False, queryset=campaigns)
+
+    player = forms.ModelChoiceField(required=False, queryset=User.objects.all())
+
+    characters = Character.objects.all()
+    character = forms.ModelChoiceField(required=False, queryset=characters)
+
+    search = forms.CharField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(WriteupSearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'writeup-search-form'
+        self.helper.form_class = 'form-inline'
+        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
+        self.helper.form_method = 'Post'
+        self.helper.form_action = "/writeups/listWriteups/newest/"
+        self.helper.layout = Layout(
+            InlineField('campaign'),
+            InlineField('player'),
+            InlineField('character'),
+            InlineField('search'),
+            Submit('Submit', 'Search'),
+        )
+
+    class Meta:
+        fields = ['campaign', 'player', 'character', 'search']
 
 
