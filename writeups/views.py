@@ -74,7 +74,7 @@ def list_writeups(request, sort_order='newest', query_set=None):
         writeups = paginator.page(paginator.num_pages)
 
     if not is_gm(request.user):
-        search_form.fields['character'].choices = [(c.id, str(c)) for c in Character.objects.filter(hidden=False)]
+        search_form.fields['character'].choices = [('', '---------')] + [(c.id, str(c)) for c in Character.objects.filter(hidden=False)]
 
     data = {'writeups': writeups, 'pages': pages, 'search_form': search_form}
 
