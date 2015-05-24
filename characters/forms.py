@@ -5,6 +5,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Field
 from crispy_forms.bootstrap import InlineField
 from django import forms
+from django.contrib.auth.models import User
+
+from campaigns.models import Campaign
 
 
 class CharacterForm(forms.ModelForm):
@@ -20,29 +23,30 @@ class CharacterForm(forms.ModelForm):
         self.helper.form_enctype = "multipart/form-data"
 
         row1 = Div(
-                Div(Field('player'), css_class='col-md-3',),
-                Div(Field('character_type'), css_class='col-md-3',),
-                Div('name', css_class='col-md-3',),
-                Div('race', css_class='col-md-3',),
-                css_class='row',
-            )
+            Div('player', css_class='col-md-3',),
+            Div('campaign', css_class='col-md-3'),
+            Div('character_type', css_class='col-md-3',),
+            Div('name', css_class='col-md-3',),
+            css_class='row',
+        )
 
         row2 = Div(
-                Div('character_class', css_class='col-md-4',),
-                Div('level', css_class='col-md-4',),
-                Div('current_xp', css_class='col-md-4'),
-                css_class='row',
-            )
+            Div('race', css_class='col-md-3',),
+            Div('character_class', css_class='col-md-3',),
+            Div('level', css_class='col-md-3',),
+            Div('current_xp', css_class='col-md-3'),
+            css_class='row',
+        )
 
         row3 = Div(Div('biography', css_class='col-md-12'),css_class='row')
 
         row4 = Div(
-                Div('character_token', css_class='col-md-4'),
-                Div('num_deaths', css_class='col-md-4',),
-                Div('deceased', css_class='col-md-2',),
-                Div('hidden', css_class='col-md-2'),
-                css_class='row',
-            )
+            Div('character_token', css_class='col-md-4'),
+            Div('num_deaths', css_class='col-md-4',),
+            Div('deceased', css_class='col-md-2',),
+            Div('hidden', css_class='col-md-2'),
+            css_class='row',
+        )
 
         self.helper.layout = Layout(
             row1,
@@ -55,12 +59,19 @@ class CharacterForm(forms.ModelForm):
 
     class Meta:
         model = Character
-        fields = ['player', 'character_type', 'name', 'race', 'character_class',
-                  'level', 'biography', 'current_xp', 'deceased',
-                  'num_deaths', 'character_token', 'hidden']
+        fields = [
+            'player', 'campaign', 'character_type', 'name', 'race', 'character_class',
+            'level', 'biography', 'current_xp', 'deceased',
+            'num_deaths', 'character_token', 'hidden'
+        ]
 
 
 class CharacterSearchForm(forms.Form):
+
+    player = forms.ModelChoiceField(required=False, queryset=User.objects.all())
+
+    campaigns = Campaign.objects.all()
+    campaign = forms.ModelChoiceField(required=False, queryset=campaigns, initial=campaigns[0])
 
     PC = ('PC', 'PC')
     NPC = ('NP', 'NPC')
@@ -79,12 +90,13 @@ class CharacterSearchForm(forms.Form):
     type = forms.ChoiceField(required=False,
                              choices=type_choices)
 
-    search = forms.CharField()
+    search = forms.CharField(required=False)
     deceased_choices = [
         ('a', 'All'),
         ('d', 'Dead'),
         ('n', 'Not Dead')
     ]
+
     deceased = forms.ChoiceField(required=False,
                                  choices=deceased_choices)
 
@@ -96,6 +108,8 @@ class CharacterSearchForm(forms.Form):
         self.helper.form_method = 'Post'
         self.helper.form_action = "/listCharacters/"
         self.helper.layout = Layout(
+            InlineField('campaign'),
+            InlineField('player'),
             InlineField('type'),
             InlineField('deceased'),
             InlineField('search'),
@@ -103,4 +117,4 @@ class CharacterSearchForm(forms.Form):
         )
 
     class Meta:
-        fields = ['type', 'deceased', 'search']
+        fields = ['campaign', 'player', 'type', 'deceased', 'search']

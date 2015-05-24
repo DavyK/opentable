@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from campaigns.models import Campaign
+
 # Create your models here.
 
 
@@ -16,8 +18,9 @@ class Character(models.Model):
         ORG
     ]
 
-
     character_type = models.CharField(max_length=2, choices=type_choices, default=PC[0])
+
+    campaign = models.ForeignKey(Campaign)
 
     player = models.ForeignKey(User)
 

@@ -4,6 +4,13 @@
 
 {% load crispy_forms_tags %}
 
+<div class="col-xs-3">
+    <div class="btn-group" role="'group">
+        <a href="{% url 'writeups:list_writeups' 'newest' %}" type="button" class="btn btn-default btn-sm">Sort Newest</a>
+        <a href="{% url 'writeups:list_writeups' 'oldest' %}" type="button" class="btn btn-default btn-sm">Sort Oldest</a>
+    </div>
+</div>
+
 <div class="col-xs-12">
     <ul class="pagination">
     {% if writeups.has_previous %}
@@ -31,7 +38,6 @@
         <li class="disabled"><a href="#">Next</a></li>
     {% endif %}
     </ul>
-
 </div>
 
     <div class="col-xs-11 col-xs-offset-1">
@@ -47,9 +53,6 @@
             </div>
 
         {% empty %}
-
-
-
             <h3>Ooops!</h3>
             <p>No write ups here yet.</p>
 

@@ -18,15 +18,21 @@ from characters.models import Character
 # Writeup Views
 ########################################################################################################################
 
-def list_writeups(request, query_set=None):
+def list_writeups(request, sort_order='newest', query_set=None):
     """
     View the most 5 recently submitted posts along with number of comments in paginated .
     """
 
+    if sort_order == 'newest':
+        sort_order = '-date_added'
+    else:
+        sort_order = 'date_added'
+
+
     page = request.GET.get('page')
 
     if query_set is None:
-        writeup_queryset = Writeup.objects.all()
+        writeup_queryset = Writeup.objects.all().order_by(sort_order)
     else:
         writeup_queryset = query_set
 

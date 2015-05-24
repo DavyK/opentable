@@ -75,10 +75,11 @@ class SummaryForm(forms.ModelForm):
 
     class Meta:
         model = SessionSummary
-        fields = ['gm', 'number', 'location', 'session_characters',
-                  'xp_awarded', 'summary_content', 'important_npcs',
-                  'date_added'
-                  ]
+        fields = [
+            'gm', 'number', 'location', 'session_characters',
+            'xp_awarded', 'summary_content', 'important_npcs',
+            'date_added'
+        ]
 
         widgets = {
             'session_characters': forms.CheckboxSelectMultiple

@@ -29,18 +29,21 @@ def list_characters(request, queryset=None):
 
         characters = Character.objects.all()
 
+        search_player = request.POST['player']
+        search_campaign = request.POST['campaign']
         search_text = request.POST['search']
-        search_type = request.POST['type']
         search_deceased = request.POST['deceased']
+        search_type = request.POST['type']
 
-        if search_text:
-            characters = characters.filter(Q(name__icontains=search_text) |
-                                           Q(character_class__icontains=search_text) |
-                                           Q(race__icontains=search_text))
+        if search_player:
+            print search_player
+            characters = characters.filter(player__pk=search_player)
+
+        if search_campaign:
+            characters = characters.filter(campaign__pk=search_campaign)
 
         if search_type !='AL':
             characters = characters.filter(character_type=search_type)
-
 
         if search_deceased == 'a':
             pass
@@ -48,6 +51,13 @@ def list_characters(request, queryset=None):
             characters = characters.filter(deceased=True)
         else:
             characters = characters.filter(deceased=False)
+
+
+        if search_text:
+            characters = characters.filter(Q(name__icontains=search_text) |
+                                           Q(character_class__icontains=search_text) |
+                                           Q(race__icontains=search_text))
+
 
         search_form = CharacterSearchForm(request.POST)
 
