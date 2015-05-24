@@ -1,6 +1,5 @@
 __author__ = 'David Kavanagh'
-from itertools import chain
-from operator import attrgetter
+
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -9,8 +8,6 @@ from django.shortcuts import RequestContext, render_to_response
 from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
 
-
-from campaigns.models import Campaign
 from characters.models import Character
 from writeups.models import Writeup, SessionSummary, Comment
 from django.db.models import Count, Sum, Avg
@@ -33,6 +30,7 @@ def numbers(request):
         'deceased_characters': Character.objects.filter(character_type='PC', hidden=False, deceased=True).count(),
         'races': Character.objects.filter(character_type='PC', hidden=False).values('race').annotate(the_count=Count('race')),
         'classes': Character.objects.filter(character_type='PC', hidden=False).values('character_class').annotate(the_count=Count('character_class')),
+        'writeups_per_player': User.objects.annotate(Count('writeup')),
         'party_level': Character.objects.filter(character_type='PC', hidden=False).values('level').aggregate(Sum('level'), Avg('level')),
     }
 

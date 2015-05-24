@@ -28,8 +28,9 @@
                     </tr>
                 </table>
 
-                <div class="col-xs-12 col-md-6" id="pie-chart-races"></div>
-                <div class="col-xs-12 col-md-6" id="pie-chart-classes"></div>
+                <div class="col-xs-12 col-md-6 padding-5" id="pie-chart-races"></div>
+                <div class="col-xs-12 col-md-6 padding-5" id="pie-chart-classes"></div>
+                <div class="col-xs-12 col-md-12 padding-5" id="pie-chart-writeups"></div>
 
                 <script>
                     $(function () {
@@ -63,11 +64,7 @@
                                 name: 'Count',
                                 data: [
                                 {% for r in races %}
-                                    {% if not forloop.last %}
                                         ['{{r.race}}',     {{r.the_count}}],
-                                    {% else %}
-                                        ['{{r.race}}',     {{r.the_count}}],
-                                    {% endif %}
                                 {% endfor %}
 
                                 ]
@@ -103,15 +100,46 @@
                                 name: 'Count',
                                 data: [
                                 {% for c in classes %}
-                                    {% if not forloop.last %}
                                         ['{{c.character_class}}',     {{c.the_count}}],
-                                    {% else %}
-                                        ['{{c.character_class}}',     {{c.the_count}}],
-                                    {% endif %}
                                 {% endfor %}
 
                                 ]
                             }]
+                        });
+                        $('#pie-chart-writeups').highcharts({
+                                  chart: {
+                               type: 'column'
+                           },
+                           title: {
+                               text: 'Write Ups by Player'
+                           },
+                           xAxis: {
+                                type: 'category',
+                                labels: {
+                                    rotation: -45,
+                                    style: {
+                                        fontSize: '13px',
+                                        fontFamily: 'Verdana, sans-serif'
+                                    }
+                                }
+                           },
+                           yAxis: {
+                                min: 0,
+                                title: {
+                                    text: '# Write Ups by Player'
+                                }
+                           },
+                           legend: {
+                                enabled: false
+                           },
+                           series: [{
+                                name: 'Count',
+                                data: [
+                                {% for w in writeups_per_player %}
+                                        ['{{w.username}}',     {{w.writeup__count}}],
+                                {% endfor %}
+                                ]
+                           }]
                         });
                     });
                 </script>

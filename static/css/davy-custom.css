@@ -157,6 +157,10 @@ p {
 .margins-10 {
     margin: 10px;
 }
+.padding-5 {
+    padding: 5px;
+
+}
 .button-offset {
  position: absolute;
  bottom: 0;
