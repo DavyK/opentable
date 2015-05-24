@@ -17,8 +17,9 @@
 
 <div class="col-xs-12">
     <div class="btn-group" role="'group">
-        <a href="#" type="button" id="sort-newest" class="btn btn-default btn-sm">Sort Newest</a>
-        <a href="#" type="button" id="sort-oldest" class="btn btn-default btn-sm">Sort Oldest</a>
+        <a href="#" type="button" id="sort-newest" class="btn btn-default btn-sm">Sort All Newest</a>
+        <a href="#" type="button" id="sort-oldest" class="btn btn-default btn-sm">Sort All Oldest</a>
+        <a href="#" id="reverse-page-order" type="button" class="btn btn-default btn-sm">Reverse Page Order</a>
     </div>
 </div>
 
@@ -51,7 +52,11 @@
     </ul>
 </div>
 
+
+
     <div class="col-xs-11 col-xs-offset-1">
+
+        <div id="to-be-sorted">
         {% for writeup in writeups %}
             <div class="panel panel-default">
                 <div class="panel-heading"><a href="{% url 'writeups:show_writeup' writeup.id %}"><h5>{{writeup.author_character}}</h5></a>
@@ -67,7 +72,8 @@
             <h3>Ooops!</h3>
             <p>No write ups here yet.</p>
 
-    {% endfor %}
+        {% endfor %}
+        </div>
     </div>
 
 
