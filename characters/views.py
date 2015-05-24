@@ -1,14 +1,20 @@
 from django.shortcuts import render_to_response, RequestContext
 from django.http import HttpResponseRedirect
+from django import forms
 from django.db.models import Q
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+
+from opentable.views import is_gm
 from characters.models import Character
 from characters.forms import CharacterForm, CharacterSearchForm
 from writeups.models import Writeup, SessionSummary
 
-
 # Create your views here.
+
+
+#dictionary to hold leveling up XP costs
 levels = {
          '1': 0,        '2': 2000,     '3': 5000,     '4': 9000,
          '5': 15000,    '6': 23000,    '7': 35000,    '8': 51000,
@@ -17,25 +23,48 @@ levels = {
          '17': 1300000, '18': 1800000, '19': 2550000, '20': 3600000
 }
 
-
 def list_characters(request, queryset=None):
 
-    search_form = CharacterSearchForm(None)
+    if request.method == 'POST':
 
-    if queryset is not None:
-        characters = queryset
-    else:
         characters = Character.objects.all()
 
-    if request.method == 'POST':
         search_text = request.POST['search']
+        search_type = request.POST['type']
+        search_deceased = request.POST['deceased']
+
         if search_text:
             characters = characters.filter(Q(name__icontains=search_text) |
                                            Q(character_class__icontains=search_text) |
                                            Q(race__icontains=search_text))
 
-    data = {'characters': characters, 'search_form': search_form}
+        if search_type !='AL':
+            characters = characters.filter(character_type=search_type)
 
+
+        if search_deceased == 'a':
+            pass
+        elif search_deceased == 'd':
+            characters = characters.filter(deceased=True)
+        else:
+            characters = characters.filter(deceased=False)
+
+        search_form = CharacterSearchForm(request.POST)
+
+    else:
+        if queryset is not None:
+            characters = queryset
+        else:
+
+            characters = Character.objects.filter(character_type='PC')
+
+        search_form = CharacterSearchForm(None)
+
+    if not is_gm(request.user):
+        characters = characters.filter(hidden=False)
+
+
+    data = {'characters': characters, 'search_form': search_form}
     return render_to_response('characters/list_character.html', data, context_instance=RequestContext(request))
 
 
@@ -70,9 +99,10 @@ def add_character(request, character_id=None):
 
     if request.method == "POST":
         if character_id is not None:
-            character_form = CharacterForm(request.POST, request.FILES, current_user=request.user, instance=this_character)
+            character_form = CharacterForm(request.POST, request.FILES, instance=this_character)
+            character_form.initial['player'] = this_character.player
         else:
-            character_form = CharacterForm(request.POST, request.FILES, current_user=request.user)
+            character_form = CharacterForm(request.POST, request.FILES)
 
         if character_form.is_valid():
             save_it = character_form.save(commit=False)
@@ -87,12 +117,22 @@ def add_character(request, character_id=None):
 
     else:
         if character_id is not None:
-            character_form = CharacterForm(current_user=request.user, instance=this_character)
+            character_form = CharacterForm(instance=this_character)
+            print this_character.player.id
+            character_form.initial['player'] = this_character.player
         else:
-            character_form = CharacterForm(current_user=request.user)
+            character_form = CharacterForm()
 
     if character_id is not None:
         character_form.helper.form_action = '/editCharacter/' + character_id + '/'
+
+    if not is_gm(request.user):
+        """
+        Note that GMs shouldn't be able to make hidden characters or edit the player choice
+        """
+        character_form.helper.layout[3].pop(3)
+        character_form.fields.pop('hidden')
+        character_form.fields['player'].choices = [(request.user.id, request.user.username)]
 
 
     data = {'character_form': character_form}
@@ -116,8 +156,12 @@ def add_xp(request, character_id):
 
     this_character.current_xp += int(request.POST['xp_to_add'])
 
+    # level up
     if this_character.current_xp >= levels[str(int(this_character.level)+1)]:
         this_character.level += 1
+        # if got enough XP to level up more than once, reset to XP to XP for next level - 1
+        if this_character.current_xp >= levels[str(int(this_character.level)+1)]:
+            this_character.current_xp = levels[str(int(this_character.level)+1)] - 1
 
     this_character.save()
 

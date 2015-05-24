@@ -25,15 +25,15 @@ def home(request):
 def numbers(request):
 
     data = {
-        'character_count': Character.objects.all().count(),
+        'character_count': Character.objects.filter(character_type='PC', hidden=False).count(),
         'writeup_count': Writeup.objects.all().count(),
         'comment_count': Comment.objects.all().count(),
         'summary_count': SessionSummary.objects.all().count(),
-        'character_deaths': Character.objects.aggregate(Sum('num_deaths')),
-        'deceased_characters': Character.objects.filter(deceased=True).count(),
-        'races': Character.objects.values('race').annotate(the_count=Count('race')),
-        'classes': Character.objects.values('character_class').annotate(the_count=Count('character_class')),
-        'party_level': Character.objects.values('level').aggregate(Sum('level'), Avg('level')),
+        'character_deaths': Character.objects.filter(character_type='PC', hidden=False).aggregate(Sum('num_deaths')),
+        'deceased_characters': Character.objects.filter(character_type='PC', hidden=False, deceased=True).count(),
+        'races': Character.objects.filter(character_type='PC', hidden=False).values('race').annotate(the_count=Count('race')),
+        'classes': Character.objects.filter(character_type='PC', hidden=False).values('character_class').annotate(the_count=Count('character_class')),
+        'party_level': Character.objects.filter(character_type='PC', hidden=False).values('level').aggregate(Sum('level'), Avg('level')),
     }
 
     return render_to_response('opentable/numbers.html', data, context_instance=RequestContext(request))
@@ -138,3 +138,14 @@ def get_writeup_archive():
 def get_summary_archive():
     archive_dates = SessionSummary.objects.datetimes('date_added', 'month', order='DESC')
     return archive_dates
+
+
+def is_gm(user):
+    """
+    callback function for checking is user is gm and therefore allowed to add SessionSummary
+    """
+    if not user.is_anonymous():
+        if u'gms' in [g.name for g in User.objects.get(pk=user.id).groups.all()]:
+            return True
+
+    return False

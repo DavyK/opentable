@@ -12,21 +12,7 @@ class WriteupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
 
-        current_user = kwargs.pop('current_user', None)
         super(WriteupForm, self).__init__(*args, **kwargs)
-
-        if current_user is not None:
-            if not current_user.is_superuser:
-                current_users = [current_user]
-                self.fields['author'].choices = [(u.id, str(u)) for u in current_users]
-                author_characters = [(c.id, str(c)) for c in Character.objects.filter(player__pk=current_user.id)]
-                self.fields['author_character'].choices = author_characters
-
-            self.initial['author'] = current_user
-
-
-
-
 
         self.helper = FormHelper()
         self.helper.form_class = 'bootstrap3'

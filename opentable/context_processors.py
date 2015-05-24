@@ -13,7 +13,7 @@ from opentable.forms import LoginForm
 
 def add_sidebar_data(request):
 
-    recent_chars = Character.objects.order_by('-date_added')[:5]
+    recent_chars = Character.objects.order_by('-date_added').filter(hidden=False)[:5]
     recent_wups = Writeup.objects.order_by('-date_added')[:5]
     recent_comms = Comment.objects.order_by('-date_added')[:5]
     recent_summs = SessionSummary.objects.order_by('-date_added')[:5]

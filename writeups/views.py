@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 
-
+from opentable.views import is_gm
 from writeups.models import Writeup, Comment, SessionSummary
 from writeups.forms import WriteupForm, CommentForm, SummaryForm
 from characters.models import Character
@@ -113,9 +113,11 @@ def add_writeup(request, writeup_id=None):
 
     if request.method == "POST":
         if writeup_id is not None:
-            writeup_form = WriteupForm(request.POST,  instance=this_writeup) #Passing current user would override data in form.
+            writeup_form = WriteupForm(request.POST,  instance=this_writeup)
+            writeup_form.initial['author'] = request.user
+
         else:
-            writeup_form = WriteupForm(request.POST, current_user=request.user)
+            writeup_form = WriteupForm(request.POST)
 
         if writeup_form.is_valid():
             save_it = writeup_form.save(commit=False)
@@ -129,11 +131,18 @@ def add_writeup(request, writeup_id=None):
     else:
         if writeup_id is not None:
             writeup_form = WriteupForm(instance=this_writeup)
+            writeup_form.initial['author'] = request.user
         else:
-            writeup_form = WriteupForm(current_user=request.user)
+            writeup_form = WriteupForm()
 
     if writeup_id is not None:
         writeup_form.helper.form_action = '/writeups/editWriteup/' + writeup_id + '/'
+
+    if not request.user.is_superuser:
+            writeup_form.fields['author'].choices = [(request.user.id, str(request.user))]
+            author_characters = [(c.id, str(c)) for c in Character.objects.filter(player__pk=request.user.id)]
+            writeup_form.fields['author_character'].choices = author_characters
+
 
     data = {'writeup_form': writeup_form}
 
@@ -176,15 +185,6 @@ def delete_comment(request, writeup_id, comment_id):
 ########################################################################################################################
 # SessionSummary Views
 ########################################################################################################################
-
-def is_gm(user):
-    """
-    callback function for checking is user is gm and therefore allowed to add SessionSummary
-    """
-    if u'gms' in [g.name for g in User.objects.get(pk=user.id).groups.all()]:
-        return True
-    else:
-        return False
 
 
 def list_summaries(request, query_set=None):

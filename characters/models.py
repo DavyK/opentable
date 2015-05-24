@@ -6,6 +6,19 @@ from django.contrib.auth.models import User
 
 class Character(models.Model):
 
+    PC = ('PC', 'PC')
+    NPC = ('NP', 'NPC')
+    ORG = ('OR', 'Organisation')
+
+    type_choices = [
+        PC,
+        NPC,
+        ORG
+    ]
+
+
+    character_type = models.CharField(max_length=2, choices=type_choices, default=PC[0])
+
     player = models.ForeignKey(User)
 
     name = models.CharField(max_length=100)
@@ -29,6 +42,8 @@ class Character(models.Model):
     date_added = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     last_edited = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    hidden = models.BooleanField(default=False)
 
     def __unicode__(self):
 

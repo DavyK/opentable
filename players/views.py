@@ -15,7 +15,7 @@ def list_players(request):
 
     character_counts = User.objects.all().annotate(Count('character'))
 
-    wirteup_counts = User.objects.all().annotate(Count('writeup'))
+    writeup_counts = User.objects.all().annotate(Count('writeup'))
 
     character2player = {i['name']: i['player__username'] for i in Character.objects.values('name', 'player__username')}
     character_session_counts = Character.objects.all().annotate(Count('sessionsummary'))
@@ -37,7 +37,7 @@ def list_players(request):
         session_counts.append(count)
 
 
-    user_data = zip(users, character_counts, wirteup_counts, session_counts)
+    user_data = zip(users, character_counts, writeup_counts, session_counts)
     data = {
             'user_data': user_data,
 
