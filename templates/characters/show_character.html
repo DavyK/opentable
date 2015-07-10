@@ -43,6 +43,10 @@
             <h6>Race: {{this_character.race}}</h6>
             <h6>Class: {{this_character.character_class}}</h6>
             <h6>Level {{this_character.level}}</h6>
+            {% if this_character.deceased %}
+                <h6>Currently Dead</h6>
+            {% endif %}
+            <h6>Number of Deaths: {{this_character.num_deaths}}</h6>
 
 
         </div>
