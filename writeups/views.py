@@ -135,6 +135,12 @@ def show_writeup(request, writeup_id, comment_id=None):
     if request.user.is_authenticated():
         data['comment_form'] = comment_form
 
+    next_writeup = Writeup.objects.filter(date_added__gt=this_writeup.date_added).first()
+    previous_writeup = Writeup.objects.filter(date_added__lt=this_writeup.date_added).first()
+
+    data['next_writeup'] = next_writeup
+    data['previous_writeup'] = previous_writeup
+
     return render_to_response('writeups/show_writeup.html', data, context_instance=RequestContext(request))
 
 

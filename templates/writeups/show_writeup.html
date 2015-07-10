@@ -7,6 +7,18 @@
     <div class="panel panel-default writeup-box">
         <!-- if user == this_writeup.author or user.is_superuser-->
         <div class="gear-menu">
+            <div class="btn-group" role="group">
+            {% if previous_writeup %}
+            <a href="{% url 'writeups:show_writeup' previous_writeup.id %}" type="button" class="btn btn-default btn-sm" aria-label="previous-writeup">Prev</a>
+            {% else %}
+            <a href="#" type="button" class="btn btn-default btn-sm disabled" aria-label="previous-writeup">Prev</a>
+            {% endif %}
+            {% if next_writeup %}
+            <a href="{% url 'writeups:show_writeup' next_writeup.id %}" type="button" class="btn btn-default btn-sm" aria-label="next-writeup">Next</a>
+            {% else %}
+            <a href="#" type="button" class="btn btn-default btn-sm disabled" aria-label="next-writeup">Next</a>
+            {% endif %}
+        </div>
             {% if user.is_authenticated %}
                 {% if user == this_writeup.author or user.is_superuser %}
                     <div class="btn-group" role="group">
