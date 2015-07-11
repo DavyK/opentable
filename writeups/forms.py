@@ -91,9 +91,6 @@ class SummaryForm(forms.ModelForm):
 
 class WriteupSearchForm(forms.Form):
 
-    campaigns = Campaign.objects.all()
-    campaign = forms.ModelChoiceField(required=False, queryset=campaigns)
-
     player = forms.ModelChoiceField(required=False, queryset=User.objects.all())
 
     characters = Character.objects.all()
@@ -104,7 +101,7 @@ class WriteupSearchForm(forms.Form):
 
 
     sort_by = forms.ChoiceField(required=False,
-                                choices=([('R', 'Recent'),('O', 'Oldest')]),
+                                choices=([('R', 'Newest'),('O', 'Oldest')]),
                                 initial='O',
                                 widget=forms.Select())
 
@@ -138,6 +135,6 @@ class WriteupSearchForm(forms.Form):
         )
 
     class Meta:
-        fields = ['campaign', 'player', 'character', 'search_text']
+        fields = ['player', 'character', 'date_range_start', 'date_range_end', 'sort_by','search_text']
 
 
