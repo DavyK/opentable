@@ -6,15 +6,40 @@
 
 {% load writeup_extras %}
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal12345">
+  <span class="glyphicon glyphicon-search"></span>
+</button>
 
-<div class="row">
-    <div class="col-sm-9 search-bar">
-            {% crispy search_form search_form.helper %}
+<!-- Modal -->
+<div class="modal" id="myModal12345">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        {% crispy search_form search_form.helper %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
-
+  </div>
 </div>
 
 
+
+<!--
+<div class="row">
+    <div class="col-sm-12 search-bar">
+
+    </div>
+
+</div>
+-->
+<!--
 <div class="col-xs-12">
     <div class="btn-group" role="'group">
         <a href="#" type="button" id="sort-newest" class="btn btn-default btn-sm">Sort All Newest</a>
@@ -22,11 +47,12 @@
         <a href="#" id="reverse-page-order" type="button" class="btn btn-default btn-sm">Reverse Page Order</a>
     </div>
 </div>
+-->
 
 <div class="col-xs-12">
     <ul class="pagination">
     {% if writeups.has_previous %}
-    <li><a href="?page={{ writeups.previous_page_number }}">Back</a></li>
+    <li><a href="?{{ request.GET.urlencode }}&page={{ writeups.previous_page_number }}">Back</a></li>
     {% else %}
         <li class="disabled"><a href="#">Back</a></li>
     {% endif %}
@@ -38,14 +64,14 @@
         {% if p == writeups.number %}
             <li class="active"><a href="#">{{ writeups.number }}</a></li>
         {% else %}
-            <li><a href="?page={{ p }}">{{ p }}</a></li>
+            <li><a href="?{{ request.GET.urlencode }}&page={{ p }}">{{ p }}</a></li>
         {% endif %}
 
         {% endfor %}
 
 
     {% if writeups.has_next %}
-       <li><a href="?page={{ writeups.next_page_number }}">Next</a></li>
+       <li><a href="?{{ request.GET.urlencode }}&page={{ writeups.next_page_number }}">Next</a></li>
     {% else %}
         <li class="disabled"><a href="#">Next</a></li>
     {% endif %}

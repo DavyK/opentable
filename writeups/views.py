@@ -18,33 +18,22 @@ from characters.models import Character
 # Writeup Views
 ########################################################################################################################
 
-def list_writeups(request, sort_order='newest', query_set=None):
+def list_writeups(request):
     """
-    View the most 5 recently submitted posts along with number of comments in paginated .
+    Paginated lists of writeups.
     """
-
-    if sort_order == 'newest':
-        sort_order = '-date_added'
-    else:
-        sort_order = 'date_added'
 
     page = request.GET.get('page')
 
-    if query_set is None:
-        writeup_queryset = Writeup.objects.all().order_by(sort_order)
-    else:
-        writeup_queryset = query_set
+    writeup_queryset = Writeup.objects.all()
 
-    if request.method == 'POST':
-        # search_campaign = request.POST['campaign']
-        search_player = request.POST['player']
-        search_character = request.POST['character']
-        search_text = request.POST['search']
-
-        '''
-        if search_campaign:
-            writeup_queryset = writeup_queryset.filter()
-        '''
+    if request.method == 'GET':
+        search_player = request.GET.get('player', None)
+        search_character = request.GET.get('character', None)
+        search_text = request.GET.get('search_text', None)
+        search_start_date = request.GET.get('date_range_start', None)
+        search_end_date = request.GET.get('date_range_end', None)
+        search_sort = request.GET.get('sort_by', None)
 
         if search_player:
             writeup_queryset = writeup_queryset.filter(author__pk=search_player)
@@ -53,9 +42,18 @@ def list_writeups(request, sort_order='newest', query_set=None):
             writeup_queryset = writeup_queryset.filter(author_character__pk=search_character)
 
         if search_text:
-            writeup_queryset = writeup_queryset.filter(Q(post_content__icontains=search_text))
+            writeup_queryset = writeup_queryset.filter(post_content__icontains=search_text)
 
-        search_form = WriteupSearchForm(request.POST)
+        if search_start_date:
+            writeup_queryset = writeup_queryset.filter(date_added__gte=search_start_date)
+
+        if search_end_date:
+            writeup_queryset = writeup_queryset.filter(date_added__lte=search_end_date)
+
+        if search_sort == 'O':
+            writeup_queryset = writeup_queryset.order_by('date_added')
+
+        search_form = WriteupSearchForm(request.GET)
 
     else:
         search_form = WriteupSearchForm()
@@ -80,8 +78,8 @@ def list_writeups(request, sort_order='newest', query_set=None):
 
     return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
 
-def archive_list_writeups(request, w_month, w_year):
 
+def archive_list_writeups(request, w_month, w_year):
     year = int(w_year)
     month = int(w_month)
     month_range = calendar.monthrange(year, month)
@@ -89,11 +87,6 @@ def archive_list_writeups(request, w_month, w_year):
     end = datetime.datetime(year=year, month=month, day=month_range[1])
 
     writeup_queryset = Writeup.objects.filter(submission_date__range=(start.date(), end.date()))
-    return list_writeups(request, query_set=writeup_queryset)
-
-
-def character_list_writeups(request, character_id):
-    writeup_queryset = Writeup.objects.filter(author_character__id=character_id)
     return list_writeups(request, query_set=writeup_queryset)
 
 
@@ -194,12 +187,6 @@ def delete_writeup(request, writeup_id):
     this_writeup.delete()
 
     return HttpResponseRedirect('/writeups/listWriteups/')
-
-def get_writeups_by_player(request, user_id):
-
-    writeups = Writeup.objects.filter(author__pk=user_id)
-    return list_writeups(request, writeups)
-
 
 ########################################################################################################################
 # Comment Views
@@ -326,6 +313,8 @@ def get_summaries_by_player(request, user_id):
     summaries = SessionSummary.objects.filter(session_characters=player_characters)
 
     return list_summaries(request, summaries)
+
+
 
 
 

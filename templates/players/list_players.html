@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <ul  class="list-group">
                         <li class="list-group-item"><a href="{% url 'characters:get_characters_by_player' u.id %}">{{c.character__count}} Characters</a></li>
-                        <li class="list-group-item"><a href="{% url 'writeups:get_writeups_by_player' u.id %}">{{w.writeup__count}} Write Ups</a></li>
+                        <li class="list-group-item"><a href="{% url 'writeups:list_writeups' %}?player={{u.id}}">{{w.writeup__count}} Write Ups</a></li>
                         <li class="list-group-item"><a href="{% url 'writeups:get_summaries_by_player' u.id %}">{{s}} Games</a></li>
                     </ul>
                 </div>

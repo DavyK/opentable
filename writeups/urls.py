@@ -7,16 +7,9 @@ urlpatterns = patterns('',
 
 
     url(r'^listWriteups/$', views.list_writeups, name='list_writeups'),
-    url(r'^listWriteups/(?P<sort_order>\w+)/$', views.list_writeups, name='list_writeups'),
 
     url(r'^archiveWriteupList/(?P<w_month>\w+)/(?P<w_year>\d+)/$',
         views.archive_list_writeups, name='archive_list_writeups'),
-
-    url(r'^characterWriteupList/(?P<character_id>\d+)/$',
-        views.character_list_writeups, name='character_list_writeups'),
-
-    url(r'^listPlayerWriteups/(?P<user_id>\d+)/$',
-        views.get_writeups_by_player, name='get_writeups_by_player'),
 
     url(r'^showWriteup/(?P<writeup_id>\d+)/$', views.show_writeup, name='show_writeup'),
 

@@ -2,7 +2,7 @@ __author__ = 'davidkavanagh'
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit
-from crispy_forms.bootstrap import InlineField, InlineCheckboxes
+from crispy_forms.bootstrap import Field, InlineCheckboxes
 from django import forms
 from django.contrib.auth.models import User
 
@@ -99,25 +99,45 @@ class WriteupSearchForm(forms.Form):
     characters = Character.objects.all()
     character = forms.ModelChoiceField(required=False, queryset=characters)
 
-    search = forms.CharField(required=False)
+    date_range_start = forms.DateTimeField(required=False)
+    date_range_end = forms.DateTimeField(required=False)
+
+
+    sort_by = forms.ChoiceField(required=False,
+                                choices=([('R', 'Recent'),('O', 'Oldest')]),
+                                initial='O',
+                                widget=forms.Select())
+
+
+
+    search_text = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(WriteupSearchForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'writeup-search-form'
-        self.helper.form_class = 'form-inline'
+        self.helper.form_class = 'form'
         self.helper.field_template = 'bootstrap3/layout/inline_field.html'
-        self.helper.form_method = 'Post'
-        self.helper.form_action = "/writeups/listWriteups/newest/"
+        self.helper.form_method = 'Get'
+        self.helper.form_action = "/writeups/listWriteups/"
         self.helper.layout = Layout(
-            InlineField('campaign'),
-            InlineField('player'),
-            InlineField('character'),
-            InlineField('search'),
+            Div(
+                Div('player', css_class='col-md-6',),
+                Div('character', css_class='col-md-6',)
+            ),
+            Div(
+                Div('date_range_start', css_class='col-md-4',),
+                Div('date_range_end', css_class='col-md-4',),
+                Div('sort_by', css_class='col-md-4',)
+            ),
+            Div(
+                Div('search_text', css_class='col-md-12',)
+            ),
+            
             Submit('Submit', 'Search'),
         )
 
     class Meta:
-        fields = ['campaign', 'player', 'character', 'search']
+        fields = ['campaign', 'player', 'character', 'search_text']
 
 

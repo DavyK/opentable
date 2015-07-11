@@ -165,3 +165,8 @@ p {
  position: absolute;
  bottom: 0;
 }
+
+/* Hack to have have modal dialogue be in front of the modal backdrop. */
+.modal-dialog{
+    z-index:inherit;
+}
