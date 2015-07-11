@@ -103,16 +103,20 @@ class CharacterSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CharacterSearchForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_class = 'form-inline'
+        self.helper.form_class = 'form'
         self.helper.field_template = 'bootstrap3/layout/inline_field.html'
-        self.helper.form_method = 'Post'
+        self.helper.form_method = 'Get'
         self.helper.form_action = "/listCharacters/"
         self.helper.layout = Layout(
-            InlineField('campaign'),
-            InlineField('player'),
-            InlineField('type'),
-            InlineField('deceased'),
-            InlineField('search'),
+            Div(
+                Div('campaign', css_class="col-md-6",),
+                Div('player', css_class="col-md-6",)
+            ),
+            Div(
+                Div('type', css_class="col-md-6",),
+                Div('deceased', css_class="col-md-6",),
+            ),
+            Div('search', css_class="col-md-12",),
             Submit('Submit', 'Search'),
         )
 

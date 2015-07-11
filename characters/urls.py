@@ -6,7 +6,6 @@ from characters import views
 urlpatterns = patterns('',
     # Examples:
     url(r'^listCharacters/$', views.list_characters, name='list_characters'),
-    url(r'^listPLayerCharacters/(?P<user_id>\d+)/$', views.get_characters_by_player, name='get_characters_by_player'),
     url(r'^showCharacter/(?P<character_id>\d+)/$', views.show_character, name='show_character'),
     url(r'^addCharacter/$', views.add_character, name='add_character'),
     url(r'^editCharacter/(?P<character_id>\d+)/$', views.add_character, name='edit_character'),

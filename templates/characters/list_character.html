@@ -2,21 +2,34 @@
 
 {% block custom_header_scripts %}
 
-
-
 {% endblock %}
 
 
 {% block content %}
 
 {% load crispy_forms_tags %}
-
-<div class="row">
-    <div class="col-sm-9 search-bar">
-            {% crispy search_form search_form.helper %}
-    </div>
-
+<div class="search-bar">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#character-search-modal">
+  <span class="glyphicon glyphicon-search"></span>
+</button>
 </div>
+
+<!-- Modal -->
+<div class="modal" id="character-search-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Search Characters</h4>
+      </div>
+      <div class="modal-body">
+        {% crispy search_form search_form.helper %}
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid">
     {% for character in characters %}
         <div class="col-xs-12 col-sm-6 col-md-4">

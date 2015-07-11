@@ -21,17 +21,19 @@ levels = {
          '17': 1300000, '18': 1800000, '19': 2550000, '20': 3600000
 }
 
-def list_characters(request, queryset=None):
 
-    if request.method == 'POST':
+def list_characters(request):
 
-        characters = Character.objects.all()
+    characters = Character.objects.all()
 
-        search_player = request.POST['player']
-        search_campaign = request.POST['campaign']
-        search_text = request.POST['search']
-        search_deceased = request.POST['deceased']
-        search_type = request.POST['type']
+    if request.method == 'GET':
+
+        search_player = request.GET.get('player', None)
+
+        search_campaign = request.GET.get('campaign', None)
+        search_text = request.GET.get('search', None)
+        search_deceased = request.GET.get('deceased', None)
+        search_type = request.GET.get('type', None)
 
         if search_player:
             characters = characters.filter(player__pk=search_player)
@@ -39,39 +41,36 @@ def list_characters(request, queryset=None):
         if search_campaign:
             characters = characters.filter(campaign__pk=search_campaign)
 
-        if search_type !='AL':
-            characters = characters.filter(character_type=search_type)
+        if search_type:
+            if search_type !='AL':
+                characters = characters.filter(character_type=search_type)
 
-        if search_deceased == 'a':
-            pass
-        elif search_deceased == 'd':
-            characters = characters.filter(deceased=True)
-        else:
-            characters = characters.filter(deceased=False)
-
+        if search_deceased:
+            if search_deceased == 'a':
+                pass
+            elif search_deceased == 'd':
+                characters = characters.filter(deceased=True)
+            else:
+                characters = characters.filter(deceased=False)
 
         if search_text:
             characters = characters.filter(Q(name__icontains=search_text) |
                                            Q(character_class__icontains=search_text) |
                                            Q(race__icontains=search_text))
 
-
-        search_form = CharacterSearchForm(request.POST)
+        search_form = CharacterSearchForm(request.GET)
 
     else:
-        if queryset is not None:
-            characters = queryset
-        else:
 
-            characters = Character.objects.filter(character_type='PC')
+        characters = characters.filter(character_type='PC')
 
         search_form = CharacterSearchForm(None)
 
     if not is_gm(request.user):
         characters = characters.filter(hidden=False)
 
-
     data = {'characters': characters, 'search_form': search_form}
+
     return render_to_response('characters/list_character.html', data, context_instance=RequestContext(request))
 
 
@@ -174,10 +173,3 @@ def add_xp(request, character_id):
 
     redirect_url = '/showCharacter/'+character_id+'/'
     return HttpResponseRedirect(redirect_url)
-
-
-def get_characters_by_player(request, user_id):
-
-    queryset = Character.objects.filter(player__pk=user_id)
-    return list_characters(request, queryset)
-
