@@ -21,7 +21,13 @@ class WriteupForm(forms.ModelForm):
         self.helper.form_class = 'bootstrap3'
         self.helper.form_method = 'POST'
         self.helper.form_action = "/writeups/addWriteup/"
-
+        self.helper.layout = Layout(
+            Div(
+                Div('author', css_class='col-md-4',),
+                Div('author_character', css_class='col-md-4',),
+                Div('date_added', css_class='col-md-4',)
+            )
+        )
         self.helper.add_input(Submit('submit', 'Submit'))
 
     class Meta:
@@ -67,7 +73,7 @@ class SummaryForm(forms.ModelForm):
             Div(
                 Div('important_npcs', css_class='col-md-4',),
                 Div('xp_awarded', css_class='col-md-4',),
-                Div('date_added', css_class='col-md-4'),
+                Div('date_added', css_class='col-md-4',),
                 css_class='row',
             ),
         )
