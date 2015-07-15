@@ -5,6 +5,6 @@ $(document).ready(function(){
             writeups[i].parentNode.appendChild(writeups[i])
         }
     });
-    $('#id_date_added').datetimepicker();
+    $('#id_date_added').datetimepicker({format:"YYYY-MM-DD HH:mm:ss"});
 
 });

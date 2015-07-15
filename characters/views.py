@@ -124,7 +124,6 @@ def add_character(request, character_id=None):
     else:
         if character_id is not None:
             character_form = CharacterForm(instance=this_character)
-            print this_character.player.id
             character_form.initial['player'] = this_character.player
         else:
             character_form = CharacterForm()
@@ -134,7 +133,7 @@ def add_character(request, character_id=None):
 
     if not is_gm(request.user):
         """
-        Note that GMs shouldn't be able to make hidden characters or edit the player choice
+        Note that non-GMs shouldn't be able to make hidden characters or edit the player choice
         """
         character_form.helper.layout[3].pop(3)
         character_form.fields.pop('hidden')
