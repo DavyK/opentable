@@ -52,6 +52,9 @@ class Character(models.Model):
 
         return self.name
 
+    class Meta:
+        ordering = ('name',)
+
 
 
 
