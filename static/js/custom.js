@@ -6,5 +6,7 @@ $(document).ready(function(){
         }
     });
     $('#id_date_added').datetimepicker({format:"YYYY-MM-DD HH:mm:ss"});
+    $('#id_date_range_start').datetimepicker({format:"YYYY-MM-DD"});
+    $('#id_date_range_end').datetimepicker({format:"YYYY-MM-DD"});
 
 });

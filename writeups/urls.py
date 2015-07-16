@@ -8,8 +8,7 @@ urlpatterns = patterns('',
 
     url(r'^listWriteups/$', views.list_writeups, name='list_writeups'),
 
-    url(r'^archiveWriteupList/(?P<w_month>\w+)/(?P<w_year>\d+)/$',
-        views.archive_list_writeups, name='archive_list_writeups'),
+    #url(r'^archiveWriteupList/(?P<w_month>\w+)/(?P<w_year>\d+)/$', views.archive_list_writeups, name='archive_list_writeups'),
 
     url(r'^showWriteup/(?P<writeup_id>\d+)/$', views.show_writeup, name='show_writeup'),
 

@@ -78,6 +78,8 @@ def list_writeups(request):
 
     return render_to_response('writeups/list_writeups.html', data, context_instance=RequestContext(request))
 
+"""
+# function not currently used. Keeping as I may add it back in later
 
 def archive_list_writeups(request, w_month, w_year):
     year = int(w_year)
@@ -87,7 +89,8 @@ def archive_list_writeups(request, w_month, w_year):
     end = datetime.datetime(year=year, month=month, day=month_range[1])
 
     writeup_queryset = Writeup.objects.filter(submission_date__range=(start.date(), end.date()))
-    return list_writeups(request, query_set=writeup_queryset)
+    return list_writeups(request)
+"""
 
 
 def show_writeup(request, writeup_id, comment_id=None):
